@@ -46,7 +46,7 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12">
-                <Frame />
+                <img src="./Logo.svg" alt="Rozkvit.AI" className="w-full h-full" />
               </div>
               <span className="text-xl font-bold gradient-text">Rozkvit.AI</span>
             </div>
