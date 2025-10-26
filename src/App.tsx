@@ -9,20 +9,22 @@ import { Card } from "./components/ui/card";
 import { Input } from "./components/ui/input";
 import { Textarea } from "./components/ui/textarea";
 import { Badge } from "./components/ui/badge";
-import Frame from "./imports/Frame25";
-import { 
-  Video, 
-  Bot, 
-  Camera, 
-  Sparkles, 
-  Zap, 
+import {
+  Video,
+  Bot,
+  Camera,
+  Sparkles,
+  Zap,
   Rocket,
   Mail,
   Instagram,
   ArrowRight,
   Play,
-  CheckCircle2
+  CheckCircle2,
 } from "lucide-react";
+
+// ⬇️ ТВОЄ SVG-ЛОГО
+import Logo from "./Logo.svg";
 
 export default function App() {
   return (
@@ -32,12 +34,15 @@ export default function App() {
 
       {/* Gradient Orbs */}
       <div className="fixed top-0 left-0 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-pulse-glow" />
-      <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
+      <div
+        className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse-glow"
+        style={{ animationDelay: "1s" }}
+      />
 
       {/* Main Content */}
       <div className="relative z-10">
         {/* Header */}
-        <motion.header 
+        <motion.header
           className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5"
           initial={{ y: -100 }}
           animate={{ y: 0 }}
@@ -46,16 +51,28 @@ export default function App() {
           <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <div className="w-12 h-12">
-                <Frame />
+                <img
+                  src={Logo}
+                  alt="Rozkvit.AI logo"
+                  className="w-full h-full object-contain"
+                />
               </div>
               <span className="text-xl font-bold gradient-text">Rozkvit.AI</span>
             </div>
 
             <nav className="hidden md:flex items-center gap-8">
-              <a href="#services" className="text-sm hover:text-purple-400 transition-colors">Послуги</a>
-              <a href="#portfolio" className="text-sm hover:text-purple-400 transition-colors">Портфоліо</a>
-              <a href="#process" className="text-sm hover:text-purple-400 transition-colors">Процес</a>
-              <a href="#contact" className="text-sm hover:text-purple-400 transition-colors">Контакти</a>
+              <a href="#services" className="text-sm hover:text-purple-400 transition-colors">
+                Послуги
+              </a>
+              <a href="#portfolio" className="text-sm hover:text-purple-400 transition-colors">
+                Портфоліо
+              </a>
+              <a href="#process" className="text-sm hover:text-purple-400 transition-colors">
+                Процес
+              </a>
+              <a href="#contact" className="text-sm hover:text-purple-400 transition-colors">
+                Контакти
+              </a>
             </nav>
 
             <Button className="bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow-hover">
@@ -84,13 +101,13 @@ export default function App() {
               </h1>
 
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Створюємо відео креативи, розумних чат-ботів та унікальні AI-фотографії, 
-                які захоплюють увагу та збільшують конверсії
+                Створюємо відео креативи, розумних чат-ботів та унікальні AI-фотографії, які
+                захоплюють увагу та збільшують конверсії
               </p>
 
               <div className="flex flex-wrap gap-4">
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow group"
                 >
                   <a href="#contact" className="flex items-center gap-2">
@@ -98,11 +115,7 @@ export default function App() {
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="glass-hover border-purple-500/30 group"
-                >
+                <Button size="lg" variant="outline" className="glass-hover border-purple-500/30 group">
                   <Play className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                   Дивитись портфоліо
                 </Button>
@@ -169,9 +182,7 @@ export default function App() {
               viewport={{ once: true }}
               className="text-center space-y-4 mb-16"
             >
-              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                Наші послуги
-              </Badge>
+              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">Наші послуги</Badge>
               <h2 className="text-4xl md:text-6xl font-bold">
                 Що ми <span className="gradient-text">створюємо</span>
               </h2>
@@ -189,7 +200,7 @@ export default function App() {
                   "Рекламні ролики для Instagram та TikTok",
                   "Промо-відео для продуктів",
                   "Анімовані логотипи та заставки",
-                  "Відео для YouTube каналів"
+                  "Відео для YouTube каналів",
                 ]}
                 color="#8B5CF6"
                 delay={0}
@@ -203,7 +214,7 @@ export default function App() {
                   "Інтеграція з Telegram, Instagram, Facebook",
                   "Обробка природної мови (NLP)",
                   "Автоматизація продажів та підтримки",
-                  "Аналітика та звіти"
+                  "Аналітика та звіти",
                 ]}
                 color="#06B6D4"
                 delay={0.1}
@@ -217,7 +228,7 @@ export default function App() {
                   "Продуктові фотографії",
                   "Портрети та lifestyle знімки",
                   "Концепт-арт та візуалізації",
-                  "Ретуш та покращення якості"
+                  "Ретуш та покращення якості",
                 ]}
                 color="#F59E0B"
                 delay={0.2}
@@ -235,9 +246,7 @@ export default function App() {
               viewport={{ once: true }}
               className="text-center space-y-4 mb-16"
             >
-              <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
-                Портфоліо
-              </Badge>
+              <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30">Портфоліо</Badge>
               <h2 className="text-4xl md:text-6xl font-bold">
                 Наші <span className="gradient-text">роботи</span>
               </h2>
@@ -281,11 +290,7 @@ export default function App() {
               viewport={{ once: true }}
               className="text-center mt-12"
             >
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="glass-hover border-purple-500/30"
-              >
+              <Button size="lg" variant="outline" className="glass-hover border-purple-500/30">
                 Дивитись всі проєкти
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
@@ -302,9 +307,7 @@ export default function App() {
               viewport={{ once: true }}
               className="text-center space-y-4 mb-16"
             >
-              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">
-                Як ми працюємо
-              </Badge>
+              <Badge className="bg-purple-500/20 text-purple-300 border-purple-500/30">Як ми працюємо</Badge>
               <h2 className="text-4xl md:text-6xl font-bold">
                 Простий <span className="gradient-text">процес</span>
               </h2>
@@ -315,7 +318,7 @@ export default function App() {
                 { step: "01", title: "Консультація", desc: "Обговорюємо ваші цілі та вимоги" },
                 { step: "02", title: "Планування", desc: "Створюємо стратегію та концепцію" },
                 { step: "03", title: "Створення", desc: "Реалізуємо проєкт з AI-технологіями" },
-                { step: "04", title: "Доставка", desc: "Передаємо готовий результат" }
+                { step: "04", title: "Доставка", desc: "Передаємо готовий результат" },
               ].map((item, index) => (
                 <motion.div
                   key={index}
@@ -356,7 +359,7 @@ export default function App() {
                     "Швидка реалізація та гнучкість",
                     "Професійна команда експертів",
                     "Прозорі ціни без прихованих платежів",
-                    "Підтримка після завершення проєкту"
+                    "Підтримка після завершення проєкту",
                   ].map((item, index) => (
                     <motion.div
                       key={index}
@@ -405,45 +408,25 @@ export default function App() {
         {/* Contact Section */}
         <section id="contact" className="py-32 px-6">
           <div className="max-w-4xl mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center space-y-4 mb-16"
-            >
-              <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30">
-                Зв'яжіться з нами
-              </Badge>
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center space-y-4 mb-16">
+              <Badge className="bg-cyan-500/20 text-cyan-300 border-cyan-500/30">Зв'яжіться з нами</Badge>
               <h2 className="text-4xl md:text-6xl font-bold">
                 Готові розпочати <span className="gradient-text">проєкт?</span>
               </h2>
-              <p className="text-xl text-muted-foreground">
-                Заповніть форму, і ми зв'яжемося з вами протягом 24 годин
-              </p>
+              <p className="text-xl text-muted-foreground">Заповніть форму, і ми зв'яжемося з вами протягом 24 годин</p>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
+            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
               <Card className="glass p-8">
                 <form className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Ім'я</label>
-                      <Input 
-                        placeholder="Ваше ім'я" 
-                        className="glass border-purple-500/20 focus:border-purple-500/50"
-                      />
+                      <Input placeholder="Ваше ім'я" className="glass border-purple-500/20 focus:border-purple-500/50" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Email</label>
-                      <Input 
-                        type="email" 
-                        placeholder="example@email.com" 
-                        className="glass border-purple-500/20 focus:border-purple-500/50"
-                      />
+                      <Input type="email" placeholder="example@email.com" className="glass border-purple-500/20 focus:border-purple-500/50" />
                     </div>
                   </div>
 
@@ -451,11 +434,7 @@ export default function App() {
                     <label className="text-sm font-medium">Тип проєкту</label>
                     <div className="grid grid-cols-3 gap-4">
                       {["Відео", "Чат-бот", "Фото"].map((type) => (
-                        <button
-                          key={type}
-                          type="button"
-                          className="glass-hover p-4 rounded-lg text-center border border-purple-500/20 hover:border-purple-500/50 transition-colors"
-                        >
+                        <button key={type} type="button" className="glass-hover p-4 rounded-lg text-center border border-purple-500/20 hover:border-purple-500/50 transition-colors">
                           {type}
                         </button>
                       ))}
@@ -464,18 +443,10 @@ export default function App() {
 
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Опис проєкту</label>
-                    <Textarea 
-                      placeholder="Розкажіть про ваш проєкт..."
-                      rows={6}
-                      className="glass border-purple-500/20 focus:border-purple-500/50"
-                    />
+                    <Textarea placeholder="Розкажіть про ваш проєкт..." rows={6} className="glass border-purple-500/20 focus:border-purple-500/50" />
                   </div>
 
-                  <Button 
-                    type="submit" 
-                    size="lg" 
-                    className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow"
-                  >
+                  <Button type="submit" size="lg" className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow">
                     Відправити заявку
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
@@ -484,12 +455,7 @@ export default function App() {
             </motion.div>
 
             {/* Contact methods */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="grid md:grid-cols-2 gap-6 mt-12"
-            >
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="grid md:grid-cols-2 gap-6 mt-12">
               <Card className="glass p-6 flex items-center gap-4 glass-hover">
                 <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
                   <Mail className="w-6 h-6 text-purple-400" />
@@ -520,7 +486,11 @@ export default function App() {
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12">
-                    <Frame />
+                    <img
+                      src={Logo}
+                      alt="Rozkvit.AI logo"
+                      className="w-full h-full object-contain"
+                    />
                   </div>
                   <span className="text-xl font-bold gradient-text">Rozkvit.AI</span>
                 </div>
