@@ -5,21 +5,23 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [react()],
-
-  // ВАЖЛИВО для GitHub Pages: назва репозиторію у форматі /RepoName/
-  // Якщо репозиторій перейменуєш — онови цей рядок.
   base: '/RozkvitAI/',
 
   resolve: {
-    alias: {
-      '@': resolve(__dirname, 'src'),
-    },
+    alias: [
+      // 1) Глобально знімаємо суфікс версії наприкінці імпорту:
+      //    "@scope/pkg@1.2.3" → "@scope/pkg"
+      { find: /(@?[^/]+(?:\/[^@/]+)?)@\d+\.\d+\.\d+$/i, replacement: '$1' },
+
+      // 2) Зручний псевдонім на src
+      { find: '@', replacement: resolve(__dirname, 'src') },
+    ],
     extensions: ['.js', '.jsx', '.ts', '.tsx', '.json'],
   },
 
   build: {
     target: 'esnext',
-    outDir: 'dist', // Actions заливає саме dist
+    outDir: 'dist',
     sourcemap: false,
   },
 
