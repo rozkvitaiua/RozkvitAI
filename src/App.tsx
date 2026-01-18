@@ -43,8 +43,8 @@ type ServiceItem = {
 };
 
 export default function App() {
-  // ✅ FORMSPREE ENDPOINT
-  const FORM_ENDPOINT = "https://formspree.io/f/xaqgeqeq";
+  // ✅ твій endpoint Formspree
+  const FORM_ENDPOINT = "https://formspree.io/f/xaqqegeq";
 
   // ✅ FORM STATE
   const [name, setName] = useState("");
@@ -57,7 +57,6 @@ export default function App() {
   // ✅ MODAL STATE
   const [selectedCase, setSelectedCase] = useState<null | PortfolioItem>(null);
 
-  // ✅ SERVICES DATA (без "Дізнатися більше")
   const services: ServiceItem[] = [
     {
       icon: Video,
@@ -103,7 +102,6 @@ export default function App() {
     },
   ];
 
-  // ✅ PORTFOLIO DATA
   const portfolioItems: PortfolioItem[] = [
     {
       image:
@@ -137,42 +135,21 @@ export default function App() {
     },
   ];
 
-  // ✅ FORMSPREE SUBMIT (FormData — 100% працює на GitHub Pages)
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  // ✅ Тут головне: НЕ fetch, а звичайний submit у hidden iframe
+  const handleSubmit = () => {
     setSent(false);
     setIsSending(true);
 
-    try {
-      const form = e.currentTarget;
-      const formData = new FormData(form);
-
-      const res = await fetch(FORM_ENDPOINT, {
-        method: "POST",
-        body: formData, // ✅ важливо: без JSON
-        headers: {
-          Accept: "application/json",
-        },
-      });
-
-      if (!res.ok) {
-        throw new Error(`Formspree error: ${res.status}`);
-      }
-
+    // Маленька затримка, щоб форма встигла відправитись
+    setTimeout(() => {
+      setIsSending(false);
       setSent(true);
 
-      // очистка форми
       setName("");
       setEmail("");
       setProjectType("");
       setMessage("");
-    } catch (err) {
-      alert(
-        "Не вдалося відправити заявку 😥 Спробуйте ще раз або напишіть нам в Instagram."
-      );
-    } finally {
-      setIsSending(false);
-    }
+    }, 900);
   };
 
   return (
@@ -207,28 +184,16 @@ export default function App() {
             </div>
 
             <nav className="hidden md:flex items-center gap-8">
-              <a
-                href="#services"
-                className="text-sm hover:text-purple-400 transition-colors"
-              >
+              <a href="#services" className="text-sm hover:text-purple-400 transition-colors">
                 Послуги
               </a>
-              <a
-                href="#portfolio"
-                className="text-sm hover:text-purple-400 transition-colors"
-              >
+              <a href="#portfolio" className="text-sm hover:text-purple-400 transition-colors">
                 Портфоліо
               </a>
-              <a
-                href="#process"
-                className="text-sm hover:text-purple-400 transition-colors"
-              >
+              <a href="#process" className="text-sm hover:text-purple-400 transition-colors">
                 Процес
               </a>
-              <a
-                href="#contact"
-                className="text-sm hover:text-purple-400 transition-colors"
-              >
+              <a href="#contact" className="text-sm hover:text-purple-400 transition-colors">
                 Контакти
               </a>
             </nav>
@@ -262,8 +227,8 @@ export default function App() {
               </h1>
 
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Створюємо відео креативи, розумних чат-ботів та унікальні
-                AI-фотографії, які захоплюють увагу та збільшують конверсії
+                Створюємо відео креативи, розумних чат-ботів та унікальні AI-фотографії, які
+                захоплюють увагу та збільшують конверсії
               </p>
 
               <div className="flex flex-wrap gap-4">
@@ -291,7 +256,6 @@ export default function App() {
                 </Button>
               </div>
 
-              {/* Stats */}
               <div className="grid grid-cols-3 gap-6 pt-8">
                 <div>
                   <div className="text-3xl font-bold gradient-text">500+</div>
@@ -299,9 +263,7 @@ export default function App() {
                 </div>
                 <div>
                   <div className="text-3xl font-bold gradient-text">98%</div>
-                  <div className="text-sm text-muted-foreground">
-                    Задоволених клієнтів
-                  </div>
+                  <div className="text-sm text-muted-foreground">Задоволених клієнтів</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold gradient-text">24/7</div>
@@ -325,7 +287,6 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent" />
               </div>
 
-              {/* Floating elements */}
               <motion.div
                 className="absolute -top-6 -right-6 glass p-4 rounded-2xl neon-glow"
                 animate={{ y: [0, -10, 0] }}
@@ -361,8 +322,7 @@ export default function App() {
                 Що ми <span className="gradient-text">створюємо</span>
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Використовуємо найновіші AI-технології для створення контенту
-                світового рівня
+                Використовуємо найновіші AI-технології для створення контенту світового рівня
               </p>
             </motion.div>
 
@@ -382,10 +342,7 @@ export default function App() {
                         className="w-14 h-14 rounded-2xl flex items-center justify-center"
                         style={{ backgroundColor: `${service.color}22` }}
                       >
-                        <Icon
-                          className="w-7 h-7"
-                          style={{ color: service.color }}
-                        />
+                        <Icon className="w-7 h-7" style={{ color: service.color }} />
                       </div>
 
                       <div className="space-y-3">
@@ -571,7 +528,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Contact */}
+        {/* CONTACT */}
         <section id="contact" className="py-32 px-6">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -597,14 +554,22 @@ export default function App() {
               viewport={{ once: true }}
             >
               <Card className="glass p-8">
-                {/* ✅ ВАЖЛИВО: method + action + FormData */}
+                {/* ✅ Hidden iframe - щоб сторінка не переходила */}
+                <iframe
+                  name="formspree_hidden_iframe"
+                  title="formspree_hidden_iframe"
+                  style={{ display: "none" }}
+                />
+
                 <form
                   className="space-y-6"
-                  onSubmit={handleSubmit}
-                  method="POST"
                   action={FORM_ENDPOINT}
+                  method="POST"
+                  target="formspree_hidden_iframe"
+                  onSubmit={handleSubmit}
                 >
-                  {/* ✅ hidden, щоб точно пішов тип проєкту */}
+                  {/* ✅ ТЕХНІЧНІ ПОЛЯ */}
+                  <input type="hidden" name="_subject" value="Rozkvit.AI — Нова заявка з сайту" />
                   <input type="hidden" name="projectType" value={projectType} />
 
                   <div className="grid md:grid-cols-2 gap-6">
@@ -652,6 +617,12 @@ export default function App() {
                         </button>
                       ))}
                     </div>
+
+                    {!projectType && (
+                      <div className="text-xs text-muted-foreground pt-2">
+                        * Оберіть тип проєкту, щоб ми швидше зорієнтувались
+                      </div>
+                    )}
                   </div>
 
                   <div className="space-y-2">
@@ -682,11 +653,22 @@ export default function App() {
                     {isSending ? "Відправляємо..." : "Відправити заявку"}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
+
+                  <div className="text-xs text-muted-foreground text-center pt-2">
+                    Якщо заявка не відправляється — напишіть нам в{" "}
+                    <a
+                      href="https://www.instagram.com/rozkvit.ai/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="underline hover:text-purple-300"
+                    >
+                      Instagram
+                    </a>
+                    .
+                  </div>
                 </form>
               </Card>
             </motion.div>
-
-            {/* ✅ прибрано 2 блоки контактів під формою */}
           </div>
         </section>
 
@@ -756,7 +738,6 @@ export default function App() {
                 <h4 className="font-semibold mb-4">Контакти</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>rozkvit.ai.ua@gmail.com</li>
-
                   <li>
                     <a
                       href="https://www.instagram.com/rozkvit.ai/"
@@ -768,7 +749,6 @@ export default function App() {
                       @rozkvit.ai
                     </a>
                   </li>
-
                   <li>Україна, Київ</li>
                 </ul>
               </div>
@@ -780,7 +760,7 @@ export default function App() {
           </div>
         </footer>
 
-        {/* ✅ PORTFOLIO MODAL */}
+        {/* Portfolio Modal */}
         {selectedCase && (
           <div
             className="fixed inset-0 z-[999] bg-black/70 backdrop-blur-sm flex items-center justify-center p-6"
@@ -810,9 +790,7 @@ export default function App() {
                   {selectedCase.category}
                 </div>
                 <h3 className="text-2xl font-bold">{selectedCase.title}</h3>
-                <p className="text-muted-foreground">
-                  {selectedCase.description}
-                </p>
+                <p className="text-muted-foreground">{selectedCase.description}</p>
 
                 <div className="flex flex-wrap gap-2 pt-2">
                   {selectedCase.tags.map((t) => (
