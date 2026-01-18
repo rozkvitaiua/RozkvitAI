@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion } from "motion/react";
 import { AnimatedBackground } from "./components/AnimatedBackground";
-import { ServiceCard } from "./components/ServiceCard";
 import { PortfolioCard } from "./components/PortfolioCard";
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
@@ -17,11 +16,10 @@ import {
   Sparkles,
   Zap,
   Rocket,
-  Mail,
-  Instagram,
   ArrowRight,
   Play,
   CheckCircle2,
+  Instagram,
 } from "lucide-react";
 
 // ⬇️ ТВОЄ SVG-ЛОГО
@@ -36,16 +34,75 @@ type PortfolioItem = {
   delay: number;
 };
 
+type ServiceItem = {
+  icon: any;
+  title: string;
+  description: string;
+  features: string[];
+  color: string;
+  delay: number;
+};
+
 export default function App() {
+  // ✅ FORMSPREE ENDPOINT
+  const FORM_ENDPOINT = "https://formspree.io/f/xaqgeqeq";
+
   // ✅ FORM STATE
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [projectType, setProjectType] = useState("");
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   // ✅ MODAL STATE
   const [selectedCase, setSelectedCase] = useState<null | PortfolioItem>(null);
+
+  // ✅ SERVICES DATA (без "Дізнатися більше")
+  const services: ServiceItem[] = [
+    {
+      icon: Video,
+      title: "Відео креативи",
+      description:
+        "Створюємо захоплюючі відео для соціальних мереж, реклами та брендингу з використанням AI-технологій",
+      features: [
+        "Рекламні ролики для Instagram та TikTok",
+        "Промо-відео для продуктів",
+        "Анімовані логотипи та заставки",
+        "Відео для YouTube каналів",
+      ],
+      color: "#8B5CF6",
+      delay: 0,
+    },
+    {
+      icon: Bot,
+      title: "AI чат-боти",
+      description:
+        "Розробляємо розумних чат-ботів, які автоматизують спілкування з клієнтами 24/7",
+      features: [
+        "Інтеграція з Telegram, Instagram, Facebook",
+        "Обробка природної мови (NLP)",
+        "Автоматизація продажів та підтримки",
+        "Аналітика та звіти",
+      ],
+      color: "#06B6D4",
+      delay: 0.1,
+    },
+    {
+      icon: Camera,
+      title: "AI фотографії",
+      description:
+        "Генеруємо унікальні фотореалістичні зображення для вашого бізнесу за допомогою штучного інтелекту",
+      features: [
+        "Продуктові фотографії",
+        "Портрети та lifestyle знімки",
+        "Концепт-арт та візуалізації",
+        "Ретуш та покращення якості",
+      ],
+      color: "#F59E0B",
+      delay: 0.2,
+    },
+  ];
 
   // ✅ PORTFOLIO DATA
   const portfolioItems: PortfolioItem[] = [
@@ -81,30 +138,45 @@ export default function App() {
     },
   ];
 
-  // ✅ FORM SUBMIT -> MAILTO + THANK YOU
-  const handleSubmit = (e: React.FormEvent) => {
+  // ✅ FORMSPREE SUBMIT
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSent(false);
+    setIsSending(true);
 
-    const subject = encodeURIComponent("Заявка з сайту Rozkvit.AI");
-    const body = encodeURIComponent(
-      `Ім'я: ${name}\nEmail: ${email}\nТип проєкту: ${
-        projectType || "Не вибрано"
-      }\n\nОпис:\n${message}`
-    );
+    const payload = {
+      name,
+      email,
+      projectType,
+      message,
+    };
 
-    // відкриває пошту з готовим листом
-    window.location.href = `mailto:rozkvit.ai.ua@gmail.com?subject=${subject}&body=${body}`;
+    try {
+      const res = await fetch(FORM_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    // показати "Дякую" на сайті
-    setSent(true);
+      if (!res.ok) throw new Error("Submit failed");
 
-    // очистити форму (опційно)
-    setTimeout(() => {
+      setSent(true);
+
+      // очистка форми
       setName("");
       setEmail("");
       setProjectType("");
       setMessage("");
-    }, 300);
+    } catch (err) {
+      alert(
+        "Не вдалося відправити заявку 😥 Спробуйте ще раз або напишіть нам в Instagram."
+      );
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -234,7 +306,7 @@ export default function App() {
                   <div className="text-sm text-muted-foreground">Проєктів</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold gradient-text">98%</div>
+                  <div className="text-3xl font-bold gradient-text">98_toggle</div>
                   <div className="text-sm text-muted-foreground">
                     Задоволених клієнтів
                   </div>
@@ -281,7 +353,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Services Section */}
+        {/* Services Section (без "Дізнатися більше") */}
         <section id="services" className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -303,47 +375,49 @@ export default function App() {
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              <ServiceCard
-                icon={Video}
-                title="Відео креативи"
-                description="Створюємо захоплюючі відео для соціальних мереж, реклами та брендингу з використанням AI-технологій"
-                features={[
-                  "Рекламні ролики для Instagram та TikTok",
-                  "Промо-відео для продуктів",
-                  "Анімовані логотипи та заставки",
-                  "Відео для YouTube каналів",
-                ]}
-                color="#8B5CF6"
-                delay={0}
-              />
+              {services.map((service, index) => {
+                const Icon = service.icon;
+                return (
+                  <motion.div
+                    key={service.title}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: service.delay }}
+                  >
+                    <Card className="glass p-8 h-full space-y-6">
+                      <div
+                        className="w-14 h-14 rounded-2xl flex items-center justify-center"
+                        style={{ backgroundColor: `${service.color}22` }}
+                      >
+                        <Icon
+                          className="w-7 h-7"
+                          style={{ color: service.color }}
+                        />
+                      </div>
 
-              <ServiceCard
-                icon={Bot}
-                title="AI чат-боти"
-                description="Розробляємо розумних чат-ботів, які автоматизують спілкування з клієнтами 24/7"
-                features={[
-                  "Інтеграція з Telegram, Instagram, Facebook",
-                  "Обробка природної мови (NLP)",
-                  "Автоматизація продажів та підтримки",
-                  "Аналітика та звіти",
-                ]}
-                color="#06B6D4"
-                delay={0.1}
-              />
+                      <div className="space-y-3">
+                        <h3 className="text-2xl font-bold">{service.title}</h3>
+                        <p className="text-muted-foreground leading-relaxed">
+                          {service.description}
+                        </p>
+                      </div>
 
-              <ServiceCard
-                icon={Camera}
-                title="AI фотографії"
-                description="Генеруємо унікальні фотореалістичні зображення для вашого бізнесу за допомогою штучного інтелекту"
-                features={[
-                  "Продуктові фотографії",
-                  "Портрети та lifestyle знімки",
-                  "Концепт-арт та візуалізації",
-                  "Ретуш та покращення якості",
-                ]}
-                color="#F59E0B"
-                delay={0.2}
-              />
+                      <ul className="space-y-3 text-sm text-muted-foreground">
+                        {service.features.map((f) => (
+                          <li key={f} className="flex items-start gap-3">
+                            <span
+                              className="mt-2 w-2 h-2 rounded-full"
+                              style={{ backgroundColor: service.color }}
+                            />
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </Card>
+                  </motion.div>
+                );
+              })}
             </div>
           </div>
         </section>
@@ -389,25 +463,6 @@ export default function App() {
                 </div>
               ))}
             </div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-center mt-12"
-            >
-              <Button
-                asChild
-                size="lg"
-                variant="outline"
-                className="glass-hover border-purple-500/30"
-              >
-                <a href="#contact">
-                  Дивитись всі проєкти
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </a>
-              </Button>
-            </motion.div>
           </div>
         </section>
 
@@ -577,6 +632,7 @@ export default function App() {
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Ім'я</label>
                       <Input
+                        required
                         placeholder="Ваше ім'я"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -587,6 +643,7 @@ export default function App() {
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Email</label>
                       <Input
+                        required
                         type="email"
                         placeholder="example@email.com"
                         value={email}
@@ -619,6 +676,7 @@ export default function App() {
                   <div className="space-y-2">
                     <label className="text-sm font-medium">Опис проєкту</label>
                     <Textarea
+                      required
                       placeholder="Розкажіть про ваш проєкт..."
                       rows={6}
                       value={message}
@@ -636,42 +694,17 @@ export default function App() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow"
+                    disabled={isSending}
+                    className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow disabled:opacity-60"
                   >
-                    Відправити заявку
+                    {isSending ? "Відправляємо..." : "Відправити заявку"}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </form>
               </Card>
             </motion.div>
 
-            {/* Contact methods */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="grid md:grid-cols-2 gap-6 mt-12"
-            >
-              <Card className="glass p-6 flex items-center gap-4 glass-hover">
-                <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center">
-                  <Mail className="w-6 h-6 text-purple-400" />
-                </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">Email</div>
-                  <div className="font-medium">rozkvit.ai.ua@gmail.com</div>
-                </div>
-              </Card>
-
-              <Card className="glass p-6 flex items-center gap-4 glass-hover">
-                <div className="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center">
-                  <Instagram className="w-6 h-6 text-cyan-400" />
-                </div>
-                <div>
-                  <div className="text-sm text-muted-foreground">Instagram</div>
-                  <div className="font-medium">@rozkvit.ai</div>
-                </div>
-              </Card>
-            </motion.div>
+            {/* ✅ прибрано 2 блоки контактів (Email/Instagram cards) */}
           </div>
         </section>
 
@@ -761,14 +794,27 @@ export default function App() {
                 <h4 className="font-semibold mb-4">Контакти</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>rozkvit.ai.ua@gmail.com</li>
-                  <li>@rozkvit.ai</li>
+
+                  {/* ✅ Instagram icon + link */}
+                  <li>
+                    <a
+                      href="https://www.instagram.com/rozkvit.ai/"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 hover:text-purple-400 transition-colors"
+                    >
+                      <Instagram className="w-4 h-4" />
+                      @rozkvit.ai
+                    </a>
+                  </li>
+
                   <li>Україна, Київ</li>
                 </ul>
               </div>
             </div>
 
             <div className="pt-8 border-t border-white/5 text-center text-sm text-muted-foreground">
-              <p>© 2025 Rozkvit.AI. Всі права захищені.</p>
+              <p>© 2026 Rozkvit.AI. Всі права захищені.</p>
             </div>
           </div>
         </footer>
