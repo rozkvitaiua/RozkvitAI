@@ -30,82 +30,159 @@ import {
 } from "lucide-react";
 
 export default function App() {
+  // -----------------------------
+  // ✅ Portfolio modal (як у Figma Make)
+  // -----------------------------
   const [portfolioModalOpen, setPortfolioModalOpen] = useState(false);
-  const [selectedPortfolioItem, setSelectedPortfolioItem] = useState(null);
+  const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<any>(null);
 
-  const portfolioProjects = [
-    {
-      image: "https://images.unsplash.com/photo-1581343117330-0104b39ce4c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwQUklMjB2aWRlbyUyMHByb2R1Y3Rpb258ZW58MXx8fHwxNzYxNDcwNjQyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      title: "Рекламна кампанія для e-commerce",
-      category: "Відео",
-      description: "Серія вертикальних відео для Instagram Reels, які збільшили продажі на 340%",
-      tags: ["Instagram", "Reels", "E-commerce"],
-      fullDescription: "Створили серію з 12 вертикальних відео для Instagram Reels, які продемонстрували продукти клієнта в динамічному та креативному форматі. Використовуючи AI-генерацію та професійний монтаж, ми створили контент, який виділявся серед конкурентів.",
-      client: "Fashion Store",
-      duration: "3 тижні",
-      results: [
-        "Збільшення продажів на 340%",
-        "Зріст залучення аудиторії на 520%",
-        "2.4М переглядів за перший місяць",
-        "CTR підвищився до 8.3%"
-      ]
-    },
-    {
-      image: "https://images.unsplash.com/photo-1601132359864-c974e79890ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBSSUyMHJvYm90JTIwdGVjaG5vbG9neXxlbnwxfHx8fDE3NjE0NTY0Njh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      title: "AI асистент для онлайн-школи",
-      category: "Чат-бот",
-      description: "Чат-бот, який автоматизував 80% запитів студентів та підвищив задоволеність",
-      tags: ["Telegram", "AI", "Освіта"],
-      fullDescription: "Розробили інтелектуального чат-бота для онлайн-школи, який відповідає на питання студентів 24/7, допомагає з розкладом, нагадує про дедлайни та надає доступ до навчальних матеріалів. Бот інтегрований з базою знань школи та використовує NLP для розуміння природної мови.",
-      client: "EdTech Platform",
-      duration: "4 тижні",
-      results: [
-        "Автоматизовано 80% типових запитів",
-        "Підвищення задоволеності студентів на 45%",
-        "Економія 25 годин щотижня для підтримки",
-        "Середній час відповіді - менше 3 секунд"
-      ]
-    },
-    {
-      image: "https://images.unsplash.com/photo-1648987905156-edcfc4beedfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwYXJ0JTIwcG9ydHJhaXR8ZW58MXx8fHwxNzYxNDcwMTU4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-      title: "Продуктова фотозйомка для бренду",
-      category: "Фото",
-      description: "AI-генеровані продуктові фотографії для каталогу fashion-бренду",
-      tags: ["AI Photography", "Fashion", "Product"],
-      fullDescription: "Створили понад 200 унікальних продуктових фотографій для каталогу fashion-бренду за допомогою AI-технологій. Кожне зображення було ретушовано та оптимізовано для різних платформ - від web-сайту до соціальних мереж.",
-      client: "Premium Fashion Brand",
-      duration: "2 тижні",
-      results: [
-        "Створено 200+ унікальних фотографій",
-        "Зниження вартості фотозйомки на 70%",
-        "Конверсія в каталозі зросла на 35%",
-        "Час на створення знизився з 6 до 2 тижнів"
-      ]
-    }
-  ];
+  const portfolioProjects = useMemo(
+    () => [
+      {
+        image:
+          "https://images.unsplash.com/photo-1581343117330-0104b39ce4c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwQUklMjB2aWRlbyUyMHByb2R1Y3Rpb258ZW58MXx8fHwxNzYxNDcwNjQyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        title: "Рекламна кампанія для e-commerce",
+        category: "Відео",
+        description:
+          "Серія вертикальних відео для Instagram Reels, які збільшили продажі на 340%",
+        tags: ["Instagram", "Reels", "E-commerce"],
+        fullDescription:
+          "Створили серію з 12 вертикальних відео для Instagram Reels, які продемонстрували продукти клієнта в динамічному та креативному форматі. Використовуючи AI-генерацію та професійний монтаж, ми створили контент, який виділявся серед конкурентів.",
+        client: "Fashion Store",
+        duration: "3 тижні",
+        results: [
+          "Збільшення продажів на 340%",
+          "Зріст залучення аудиторії на 520%",
+          "2.4М переглядів за перший місяць",
+          "CTR підвищився до 8.3%",
+        ],
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1601132359864-c974e79890ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBSSUyMHJvYm90JTIwdGVjaG5vbG9neXxlbnwxfHx8fDE3NjE0NTY0Njh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        title: "AI асистент для онлайн-школи",
+        category: "Чат-бот",
+        description:
+          "Чат-бот, який автоматизував 80% запитів студентів та підвищив задоволеність",
+        tags: ["Telegram", "AI", "Освіта"],
+        fullDescription:
+          "Розробили інтелектуального чат-бота для онлайн-школи, який відповідає на питання студентів 24/7, допомагає з розкладом, нагадує про дедлайни та надає доступ до навчальних матеріалів. Бот інтегрований з базою знань школи та використовує NLP для розуміння природної мови.",
+        client: "EdTech Platform",
+        duration: "4 тижні",
+        results: [
+          "Автоматизовано 80% типових запитів",
+          "Підвищення задоволеності студентів на 45%",
+          "Економія 25 годин щотижня для підтримки",
+          "Середній час відповіді — менше 3 секунд",
+        ],
+      },
+      {
+        image:
+          "https://images.unsplash.com/photo-1648987905156-edcfc4beedfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwYXJ0JTIwcG9ydHJhaXR8ZW58MXx8fHwxNzYxNDcwMTU4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+        title: "Продуктова фотозйомка для бренду",
+        category: "Фото",
+        description:
+          "AI-генеровані продуктові фотографії для каталогу fashion-бренду",
+        tags: ["AI Photography", "Fashion", "Product"],
+        fullDescription:
+          "Створили понад 200 унікальних продуктових фотографій для каталогу fashion-бренду за допомогою AI-технологій. Кожне зображення було ретушовано та оптимізовано для різних платформ — від web-сайту до соціальних мереж.",
+        client: "Premium Fashion Brand",
+        duration: "2 тижні",
+        results: [
+          "Створено 200+ унікальних фотографій",
+          "Зниження вартості фотозйомки на 70%",
+          "Конверсія в каталозі зросла на 35%",
+          "Час створення знизився з 6 до 2 тижнів",
+        ],
+      },
+    ],
+    []
+  );
 
-  const openPortfolioModal = (item) => {
+  const openPortfolioModal = (item: any) => {
     setSelectedPortfolioItem(item);
     setPortfolioModalOpen(true);
   };
 
   const closePortfolioModal = () => {
     setPortfolioModalOpen(false);
+    setSelectedPortfolioItem(null);
+  };
+
+  // -----------------------------
+  // ✅ Contact form (Formspree)
+  // -----------------------------
+  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xaqqegeq";
+
+  const [formName, setFormName] = useState("");
+  const [formEmail, setFormEmail] = useState("");
+  const [formType, setFormType] = useState<"Відео" | "Чат-бот" | "Фото" | "">("");
+  const [formMessage, setFormMessage] = useState("");
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
+    "idle"
+  );
+
+  const resetSuccessLater = () => {
+    window.setTimeout(() => setSubmitStatus("idle"), 6000);
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formName,
+          email: formEmail,
+          projectType: formType,
+          message: formMessage,
+          source: "Rozkvit.AI website",
+        }),
+      });
+
+      if (!res.ok) throw new Error("Formspree error");
+
+      setSubmitStatus("success");
+      setFormName("");
+      setFormEmail("");
+      setFormType("");
+      setFormMessage("");
+      resetSuccessLater();
+    } catch (err) {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const scrollToPortfolio = () => {
+    const el = document.getElementById("portfolio");
+    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] text-[#F5F5FF] relative overflow-hidden">
-      {/* Animated Background */}
       <AnimatedBackground />
 
-      {/* Gradient Orbs */}
       <div className="fixed top-0 left-0 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-pulse-glow" />
-      <div className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse-glow" style={{ animationDelay: '1s' }} />
+      <div
+        className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse-glow"
+        style={{ animationDelay: "1s" }}
+      />
 
-      {/* Main Content */}
       <div className="relative z-10">
         {/* Header */}
-        <motion.header 
+        <motion.header
           className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/5"
           initial={{ y: -100 }}
           animate={{ y: 0 }}
@@ -120,10 +197,18 @@ export default function App() {
             </div>
 
             <nav className="hidden md:flex items-center gap-8">
-              <a href="#services" className="text-sm hover:text-purple-400 transition-colors">Послуги</a>
-              <a href="#portfolio" className="text-sm hover:text-purple-400 transition-colors">Портфоліо</a>
-              <a href="#process" className="text-sm hover:text-purple-400 transition-colors">Процес</a>
-              <a href="#contact" className="text-sm hover:text-purple-400 transition-colors">Контакти</a>
+              <a href="#services" className="text-sm hover:text-purple-400 transition-colors">
+                Послуги
+              </a>
+              <a href="#portfolio" className="text-sm hover:text-purple-400 transition-colors">
+                Портфоліо
+              </a>
+              <a href="#process" className="text-sm hover:text-purple-400 transition-colors">
+                Процес
+              </a>
+              <a href="#contact" className="text-sm hover:text-purple-400 transition-colors">
+                Контакти
+              </a>
             </nav>
 
             <Button className="bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow-hover">
@@ -132,7 +217,7 @@ export default function App() {
           </div>
         </motion.header>
 
-        {/* Hero Section */}
+        {/* Hero */}
         <section className="min-h-screen flex items-center justify-center px-6 pt-20">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -152,13 +237,13 @@ export default function App() {
               </h1>
 
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Створюємо відео креативи, розумних чат-ботів та унікальні AI-фотографії, 
+                Створюємо відео креативи, розумних чат-ботів та унікальні AI-фотографії,
                 які захоплюють увагу та збільшують конверсії
               </p>
 
               <div className="flex flex-wrap gap-4">
-                <Button 
-                  size="lg" 
+                <Button
+                  size="lg"
                   className="bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow group"
                 >
                   <a href="#contact" className="flex items-center gap-2">
@@ -166,10 +251,13 @@ export default function App() {
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
+
+                <Button
+                  size="lg"
+                  variant="outline"
                   className="glass-hover border-purple-500/30 group"
+                  type="button"
+                  onClick={scrollToPortfolio}
                 >
                   <Play className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                   Дивитись портфоліо
