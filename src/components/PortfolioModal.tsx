@@ -48,7 +48,7 @@ export function PortfolioModal({ isOpen, onClose, item }: PortfolioModalProps) {
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: 20 }}
                 transition={{ type: "spring", duration: 0.5 }}
-                className="relative w-full max-w-5xl max-h-[90vh]"
+                className="relative w-full max-w-3xl max-h-[90vh] flex flex-col"
                 onClick={(e) => e.stopPropagation()}
               >
                 {/* ✅ Close button тепер не “вилазить” за межі */}
@@ -60,9 +60,9 @@ export function PortfolioModal({ isOpen, onClose, item }: PortfolioModalProps) {
                 </button>
 
                 {/* ✅ Обмежуємо висоту, робимо layout нормальним */}
-                <div className="glass rounded-3xl overflow-hidden border border-white/10 max-h-[90vh] flex flex-col">
+                <div className="glass rounded-3xl overflow-hidden border border-white/10 flex flex-col max-h-[90vh]">
                   {/* Hero Image */}
-                  <div className="relative h-[360px] overflow-hidden flex-shrink-0">
+                  <div className="relative h-[240px] overflow-hidden shrink-0">
                     <ImageWithFallback
                       src={item.image}
                       alt={item.title}
@@ -87,7 +87,7 @@ export function PortfolioModal({ isOpen, onClose, item }: PortfolioModalProps) {
                   </div>
 
                   {/* ✅ Контент тепер скролиться всередині модалки */}
-                  <div className="p-6 md:p-8 space-y-8 overflow-y-auto">
+                  <div className="p-6 space-y-6 overflow-y-auto">
                     {/* Meta */}
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                       <div className="glass rounded-xl p-4 border border-white/5">
@@ -187,7 +187,7 @@ export function PortfolioModal({ isOpen, onClose, item }: PortfolioModalProps) {
                         <h3 className="text-2xl font-bold">
                           Додаткові матеріали
                         </h3>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                           {item.additionalImages.map((img, index) => (
                             <motion.div
                               key={index}
