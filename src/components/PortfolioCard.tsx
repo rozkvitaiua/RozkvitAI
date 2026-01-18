@@ -12,7 +12,7 @@ interface PortfolioCardProps {
   description: string;
   tags: string[];
   delay?: number;
-  onClick?: () => void; // ✅ ДОДАЛИ
+  onClick?: () => void;
 }
 
 export function PortfolioCard({
@@ -22,7 +22,7 @@ export function PortfolioCard({
   description,
   tags,
   delay = 0,
-  onClick, // ✅ ДОДАЛИ
+  onClick,
 }: PortfolioCardProps) {
   return (
     <motion.div
@@ -34,12 +34,24 @@ export function PortfolioCard({
     >
       <Card
         className="glass overflow-hidden group cursor-pointer"
-        onClick={onClick} // ✅ ТЕПЕР ПРАЦЮЄ
+        onClick={onClick}
         role="button"
         tabIndex={0}
+        aria-label={`Відкрити кейс: ${title}`}
         onKeyDown={(e) => {
           if (!onClick) return;
-          if (e.key === "Enter" || e.key === " ") onClick();
+
+          // ✅ Enter відкриває
+          if (e.key === "Enter") {
+            e.preventDefault();
+            onClick();
+          }
+
+          // ✅ Space відкриває і НЕ скролить сторінку
+          if (e.key === " ") {
+            e.preventDefault();
+            onClick();
+          }
         }}
       >
         {/* Image */}
@@ -89,6 +101,7 @@ export function PortfolioCard({
           <h3 className="text-xl font-bold group-hover:text-[#8B5CF6] transition-colors">
             {title}
           </h3>
+
           <p className="text-sm text-muted-foreground leading-relaxed">
             {description}
           </p>
