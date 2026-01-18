@@ -414,7 +414,7 @@ export default function App() {
                   description={p.description}
                   tags={p.tags}
                   delay={i * 0.1}
-                  onClick={() => openPortfolioModal(p)}
+                  onClick={() => openPortfolioModal(portfolioProjects[0])}
                 />
               ))}
             </div>
