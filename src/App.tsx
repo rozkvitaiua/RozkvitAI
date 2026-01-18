@@ -22,7 +22,6 @@ import {
   Instagram,
 } from "lucide-react";
 
-// ⬇️ ТВОЄ SVG-ЛОГО
 import Logo from "./Logo.svg";
 
 type PortfolioItem = {
@@ -138,30 +137,27 @@ export default function App() {
     },
   ];
 
-  // ✅ FORMSPREE SUBMIT
-  const handleSubmit = async (e: React.FormEvent) => {
+  // ✅ FORMSPREE SUBMIT (FormData — 100% працює на GitHub Pages)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSent(false);
     setIsSending(true);
 
-    const payload = {
-      name,
-      email,
-      projectType,
-      message,
-    };
-
     try {
+      const form = e.currentTarget;
+      const formData = new FormData(form);
+
       const res = await fetch(FORM_ENDPOINT, {
         method: "POST",
+        body: formData, // ✅ важливо: без JSON
         headers: {
-          "Content-Type": "application/json",
           Accept: "application/json",
         },
-        body: JSON.stringify(payload),
       });
 
-      if (!res.ok) throw new Error("Submit failed");
+      if (!res.ok) {
+        throw new Error(`Formspree error: ${res.status}`);
+      }
 
       setSent(true);
 
@@ -181,7 +177,6 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] text-[#F5F5FF] relative overflow-hidden">
-      {/* Animated Background */}
       <AnimatedBackground />
 
       {/* Gradient Orbs */}
@@ -191,7 +186,6 @@ export default function App() {
         style={{ animationDelay: "1s" }}
       />
 
-      {/* Main Content */}
       <div className="relative z-10">
         {/* Header */}
         <motion.header
@@ -209,9 +203,7 @@ export default function App() {
                   className="w-full h-full object-contain"
                 />
               </div>
-              <span className="text-xl font-bold gradient-text">
-                Rozkvit.AI
-              </span>
+              <span className="text-xl font-bold gradient-text">Rozkvit.AI</span>
             </div>
 
             <nav className="hidden md:flex items-center gap-8">
@@ -250,7 +242,7 @@ export default function App() {
           </div>
         </motion.header>
 
-        {/* Hero Section */}
+        {/* Hero */}
         <section className="min-h-screen flex items-center justify-center px-6 pt-20">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -306,7 +298,7 @@ export default function App() {
                   <div className="text-sm text-muted-foreground">Проєктів</div>
                 </div>
                 <div>
-                  <div className="text-3xl font-bold gradient-text">98_toggle</div>
+                  <div className="text-3xl font-bold gradient-text">98%</div>
                   <div className="text-sm text-muted-foreground">
                     Задоволених клієнтів
                   </div>
@@ -353,7 +345,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Services Section (без "Дізнатися більше") */}
+        {/* Services */}
         <section id="services" className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -375,7 +367,7 @@ export default function App() {
             </motion.div>
 
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {services.map((service, index) => {
+              {services.map((service) => {
                 const Icon = service.icon;
                 return (
                   <motion.div
@@ -422,7 +414,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Portfolio Section */}
+        {/* Portfolio */}
         <section
           id="portfolio"
           className="py-32 px-6 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent"
@@ -466,7 +458,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Process Section */}
+        {/* Process */}
         <section id="process" className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -485,26 +477,10 @@ export default function App() {
 
             <div className="grid md:grid-cols-4 gap-8">
               {[
-                {
-                  step: "01",
-                  title: "Консультація",
-                  desc: "Обговорюємо ваші цілі та вимоги",
-                },
-                {
-                  step: "02",
-                  title: "Планування",
-                  desc: "Створюємо стратегію та концепцію",
-                },
-                {
-                  step: "03",
-                  title: "Створення",
-                  desc: "Реалізуємо проєкт з AI-технологіями",
-                },
-                {
-                  step: "04",
-                  title: "Доставка",
-                  desc: "Передаємо готовий результат",
-                },
+                { step: "01", title: "Консультація", desc: "Обговорюємо ваші цілі та вимоги" },
+                { step: "02", title: "Планування", desc: "Створюємо стратегію та концепцію" },
+                { step: "03", title: "Створення", desc: "Реалізуємо проєкт з AI-технологіями" },
+                { step: "04", title: "Доставка", desc: "Передаємо готовий результат" },
               ].map((item, index) => (
                 <motion.div
                   key={index}
@@ -514,9 +490,7 @@ export default function App() {
                   transition={{ delay: index * 0.1 }}
                 >
                   <Card className="glass p-6 text-center space-y-4 h-full">
-                    <div className="text-5xl font-bold gradient-text">
-                      {item.step}
-                    </div>
+                    <div className="text-5xl font-bold gradient-text">{item.step}</div>
                     <h3 className="text-xl font-bold">{item.title}</h3>
                     <p className="text-sm text-muted-foreground">{item.desc}</p>
                   </Card>
@@ -526,7 +500,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Why Choose Us Section */}
+        {/* Why choose us */}
         <section className="py-32 px-6 bg-gradient-to-b from-purple-500/5 to-transparent">
           <div className="max-w-7xl mx-auto">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -579,9 +553,7 @@ export default function App() {
                   </Card>
                   <Card className="glass p-6 space-y-2">
                     <div className="text-4xl font-bold gradient-text">50+</div>
-                    <div className="text-sm text-muted-foreground">
-                      AI інструментів
-                    </div>
+                    <div className="text-sm text-muted-foreground">AI інструментів</div>
                   </Card>
                   <Card className="glass p-6 space-y-2">
                     <div className="text-4xl font-bold gradient-text">100%</div>
@@ -591,9 +563,7 @@ export default function App() {
                   </Card>
                   <Card className="glass p-6 space-y-2">
                     <div className="text-4xl font-bold gradient-text">24/7</div>
-                    <div className="text-sm text-muted-foreground">
-                      Доступність
-                    </div>
+                    <div className="text-sm text-muted-foreground">Доступність</div>
                   </Card>
                 </div>
               </motion.div>
@@ -601,7 +571,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Contact Section */}
+        {/* Contact */}
         <section id="contact" className="py-32 px-6">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -627,12 +597,22 @@ export default function App() {
               viewport={{ once: true }}
             >
               <Card className="glass p-8">
-                <form className="space-y-6" onSubmit={handleSubmit}>
+                {/* ✅ ВАЖЛИВО: method + action + FormData */}
+                <form
+                  className="space-y-6"
+                  onSubmit={handleSubmit}
+                  method="POST"
+                  action={FORM_ENDPOINT}
+                >
+                  {/* ✅ hidden, щоб точно пішов тип проєкту */}
+                  <input type="hidden" name="projectType" value={projectType} />
+
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label className="text-sm font-medium">Ім'я</label>
                       <Input
                         required
+                        name="name"
                         placeholder="Ваше ім'я"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
@@ -644,6 +624,7 @@ export default function App() {
                       <label className="text-sm font-medium">Email</label>
                       <Input
                         required
+                        name="email"
                         type="email"
                         placeholder="example@email.com"
                         value={email}
@@ -677,6 +658,7 @@ export default function App() {
                     <label className="text-sm font-medium">Опис проєкту</label>
                     <Textarea
                       required
+                      name="message"
                       placeholder="Розкажіть про ваш проєкт..."
                       rows={6}
                       value={message}
@@ -704,7 +686,7 @@ export default function App() {
               </Card>
             </motion.div>
 
-            {/* ✅ прибрано 2 блоки контактів (Email/Instagram cards) */}
+            {/* ✅ прибрано 2 блоки контактів під формою */}
           </div>
         </section>
 
@@ -721,9 +703,7 @@ export default function App() {
                       className="w-full h-full object-contain"
                     />
                   </div>
-                  <span className="text-xl font-bold gradient-text">
-                    Rozkvit.AI
-                  </span>
+                  <span className="text-xl font-bold gradient-text">Rozkvit.AI</span>
                 </div>
                 <p className="text-sm text-muted-foreground">
                   AI-студія креативного контенту нового покоління
@@ -734,26 +714,17 @@ export default function App() {
                 <h4 className="font-semibold mb-4">Послуги</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>
-                    <a
-                      href="#services"
-                      className="hover:text-purple-400 transition-colors"
-                    >
+                    <a href="#services" className="hover:text-purple-400 transition-colors">
                       Відео креативи
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#services"
-                      className="hover:text-purple-400 transition-colors"
-                    >
+                    <a href="#services" className="hover:text-purple-400 transition-colors">
                       AI чат-боти
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#services"
-                      className="hover:text-purple-400 transition-colors"
-                    >
+                    <a href="#services" className="hover:text-purple-400 transition-colors">
                       AI фотографії
                     </a>
                   </li>
@@ -764,26 +735,17 @@ export default function App() {
                 <h4 className="font-semibold mb-4">Компанія</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>
-                    <a
-                      href="#process"
-                      className="hover:text-purple-400 transition-colors"
-                    >
+                    <a href="#process" className="hover:text-purple-400 transition-colors">
                       Про нас
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#portfolio"
-                      className="hover:text-purple-400 transition-colors"
-                    >
+                    <a href="#portfolio" className="hover:text-purple-400 transition-colors">
                       Портфоліо
                     </a>
                   </li>
                   <li>
-                    <a
-                      href="#contact"
-                      className="hover:text-purple-400 transition-colors"
-                    >
+                    <a href="#contact" className="hover:text-purple-400 transition-colors">
                       Блог
                     </a>
                   </li>
@@ -795,7 +757,6 @@ export default function App() {
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>rozkvit.ai.ua@gmail.com</li>
 
-                  {/* ✅ Instagram icon + link */}
                   <li>
                     <a
                       href="https://www.instagram.com/rozkvit.ai/"
