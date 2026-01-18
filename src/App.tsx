@@ -1,17 +1,21 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { FormEvent, useMemo, useState } from "react";
 import { motion } from "motion/react";
+
 import { AnimatedBackground } from "./components/AnimatedBackground";
 import { ServiceCard } from "./components/ServiceCard";
 import { PortfolioCard } from "./components/PortfolioCard";
 import { PortfolioModal } from "./components/PortfolioModal";
+
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import { Input } from "./components/ui/input";
 import { Textarea } from "./components/ui/textarea";
 import { Badge } from "./components/ui/badge";
+
 import Frame from "./imports/Frame25";
+
 import {
   Video,
   Bot,
@@ -27,7 +31,7 @@ import {
 
 export default function App() {
   // -----------------------------
-  // Portfolio modal (Figma Make logic)
+  // ✅ Portfolio modal (як у Figma Make)
   // -----------------------------
   const [portfolioModalOpen, setPortfolioModalOpen] = useState(false);
   const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<any>(null);
@@ -69,7 +73,7 @@ export default function App() {
           "Автоматизовано 80% типових запитів",
           "Підвищення задоволеності студентів на 45%",
           "Економія 25 годин щотижня для підтримки",
-          "Середній час відповіді - менше 3 секунд",
+          "Середній час відповіді — менше 3 секунд",
         ],
       },
       {
@@ -81,14 +85,14 @@ export default function App() {
           "AI-генеровані продуктові фотографії для каталогу fashion-бренду",
         tags: ["AI Photography", "Fashion", "Product"],
         fullDescription:
-          "Створили понад 200 унікальних продуктових фотографій для каталогу fashion-бренду за допомогою AI-технологій. Кожне зображення було ретушовано та оптимізовано для різних платформ - від web-сайту до соціальних мереж.",
+          "Створили понад 200 унікальних продуктових фотографій для каталогу fashion-бренду за допомогою AI-технологій. Кожне зображення було ретушовано та оптимізовано для різних платформ — від web-сайту до соціальних мереж.",
         client: "Premium Fashion Brand",
         duration: "2 тижні",
         results: [
           "Створено 200+ унікальних фотографій",
           "Зниження вартості фотозйомки на 70%",
           "Конверсія в каталозі зросла на 35%",
-          "Час на створення знизився з 6 до 2 тижнів",
+          "Час створення знизився з 6 до 2 тижнів",
         ],
       },
     ],
@@ -106,7 +110,7 @@ export default function App() {
   };
 
   // -----------------------------
-  // Contact form (Formspree)
+  // ✅ Contact form (Formspree)
   // -----------------------------
   const FORMSPREE_ENDPOINT = "https://formspree.io/f/xaqqegeq";
 
@@ -116,18 +120,15 @@ export default function App() {
   const [formMessage, setFormMessage] = useState("");
 
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
+    "idle"
+  );
 
   const resetSuccessLater = () => {
-    // щоб повідомлення не висіло вічно
-    window.setTimeout(() => {
-      setSubmitStatus("idle");
-    }, 6000);
+    window.setTimeout(() => setSubmitStatus("idle"), 6000);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setIsSubmitting(true);
@@ -149,9 +150,7 @@ export default function App() {
         }),
       });
 
-      if (!res.ok) {
-        throw new Error("Formspree error");
-      }
+      if (!res.ok) throw new Error("Formspree error");
 
       setSubmitStatus("success");
       setFormName("");
@@ -173,17 +172,14 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] text-[#F5F5FF] relative overflow-hidden">
-      {/* Animated Background */}
       <AnimatedBackground />
 
-      {/* Gradient Orbs */}
       <div className="fixed top-0 left-0 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-pulse-glow" />
       <div
         className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse-glow"
         style={{ animationDelay: "1s" }}
       />
 
-      {/* Main Content */}
       <div className="relative z-10">
         {/* Header */}
         <motion.header
@@ -201,28 +197,16 @@ export default function App() {
             </div>
 
             <nav className="hidden md:flex items-center gap-8">
-              <a
-                href="#services"
-                className="text-sm hover:text-purple-400 transition-colors"
-              >
+              <a href="#services" className="text-sm hover:text-purple-400 transition-colors">
                 Послуги
               </a>
-              <a
-                href="#portfolio"
-                className="text-sm hover:text-purple-400 transition-colors"
-              >
+              <a href="#portfolio" className="text-sm hover:text-purple-400 transition-colors">
                 Портфоліо
               </a>
-              <a
-                href="#process"
-                className="text-sm hover:text-purple-400 transition-colors"
-              >
+              <a href="#process" className="text-sm hover:text-purple-400 transition-colors">
                 Процес
               </a>
-              <a
-                href="#contact"
-                className="text-sm hover:text-purple-400 transition-colors"
-              >
+              <a href="#contact" className="text-sm hover:text-purple-400 transition-colors">
                 Контакти
               </a>
             </nav>
@@ -233,7 +217,7 @@ export default function App() {
           </div>
         </motion.header>
 
-        {/* Hero Section */}
+        {/* Hero */}
         <section className="min-h-screen flex items-center justify-center px-6 pt-20">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -253,8 +237,8 @@ export default function App() {
               </h1>
 
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Створюємо відео креативи, розумних чат-ботів та унікальні
-                AI-фотографії, які захоплюють увагу та збільшують конверсії
+                Створюємо відео креативи, розумних чат-ботів та унікальні AI-фотографії,
+                які захоплюють увагу та збільшують конверсії
               </p>
 
               <div className="flex flex-wrap gap-4">
@@ -280,7 +264,6 @@ export default function App() {
                 </Button>
               </div>
 
-              {/* Stats */}
               <div className="grid grid-cols-3 gap-6 pt-8">
                 <div>
                   <div className="text-3xl font-bold gradient-text">500+</div>
@@ -288,9 +271,7 @@ export default function App() {
                 </div>
                 <div>
                   <div className="text-3xl font-bold gradient-text">98%</div>
-                  <div className="text-sm text-muted-foreground">
-                    Задоволених клієнтів
-                  </div>
+                  <div className="text-sm text-muted-foreground">Задоволених клієнтів</div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold gradient-text">24/7</div>
@@ -314,7 +295,6 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent" />
               </div>
 
-              {/* Floating elements */}
               <motion.div
                 className="absolute -top-6 -right-6 glass p-4 rounded-2xl neon-glow"
                 animate={{ y: [0, -10, 0] }}
@@ -334,7 +314,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Services Section */}
+        {/* Services */}
         <section id="services" className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -350,8 +330,7 @@ export default function App() {
                 Що ми <span className="gradient-text">створюємо</span>
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Використовуємо найновіші AI-технології для створення контенту
-                світового рівня
+                Використовуємо найновіші AI-технології для створення контенту світового рівня
               </p>
             </motion.div>
 
@@ -401,7 +380,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Portfolio Section */}
+        {/* Portfolio */}
         <section
           id="portfolio"
           className="py-32 px-6 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent"
@@ -424,34 +403,25 @@ export default function App() {
               </p>
             </motion.div>
 
-            {/* ✅ cards clickable -> open modal */}
+            {/* ✅ Клік по картці => відкриття модалки */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {portfolioProjects.map((project, idx) => (
-                <div
-                  key={project.title}
-                  className="cursor-pointer"
-                  role="button"
-                  tabIndex={0}
-                  onClick={() => openPortfolioModal(project)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") openPortfolioModal(project);
-                  }}
-                >
-                  <PortfolioCard
-                    image={project.image}
-                    title={project.title}
-                    category={project.category}
-                    description={project.description}
-                    tags={project.tags}
-                    delay={idx * 0.1}
-                  />
-                </div>
+              {portfolioProjects.map((p, i) => (
+                <PortfolioCard
+                  key={p.title}
+                  image={p.image}
+                  title={p.title}
+                  category={p.category}
+                  description={p.description}
+                  tags={p.tags}
+                  delay={i * 0.1}
+                  onClick={() => openPortfolioModal(p)}
+                />
               ))}
             </div>
           </div>
         </section>
 
-        {/* Process Section */}
+        {/* Process */}
         <section id="process" className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -493,76 +463,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Why Choose Us Section */}
-        <section className="py-32 px-6 bg-gradient-to-b from-purple-500/5 to-transparent">
-          <div className="max-w-7xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
-              <motion.div
-                initial={{ opacity: 0, x: -30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="space-y-8"
-              >
-                <h2 className="text-4xl md:text-5xl font-bold">
-                  Чому обирають <span className="gradient-text">нас</span>
-                </h2>
-
-                <div className="space-y-6">
-                  {[
-                    "Використання найсучасніших AI-технологій",
-                    "Індивідуальний підхід до кожного проєкту",
-                    "Швидка реалізація та гнучкість",
-                    "Професійна команда експертів",
-                    "Прозорі ціни без прихованих платежів",
-                    "Підтримка після завершення проєкту",
-                  ].map((item, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: index * 0.1 }}
-                      className="flex items-start gap-3"
-                    >
-                      <CheckCircle2 className="w-6 h-6 text-purple-400 flex-shrink-0 mt-0.5" />
-                      <span className="text-lg">{item}</span>
-                    </motion.div>
-                  ))}
-                </div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, x: 30 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                className="relative"
-              >
-                <div className="grid grid-cols-2 gap-4">
-                  <Card className="glass p-6 space-y-2">
-                    <div className="text-4xl font-bold gradient-text">3x</div>
-                    <div className="text-sm text-muted-foreground">
-                      Швидше ніж традиційні методи
-                    </div>
-                  </Card>
-                  <Card className="glass p-6 space-y-2">
-                    <div className="text-4xl font-bold gradient-text">50+</div>
-                    <div className="text-sm text-muted-foreground">AI інструментів</div>
-                  </Card>
-                  <Card className="glass p-6 space-y-2">
-                    <div className="text-4xl font-bold gradient-text">100%</div>
-                    <div className="text-sm text-muted-foreground">Задоволення якістю</div>
-                  </Card>
-                  <Card className="glass p-6 space-y-2">
-                    <div className="text-4xl font-bold gradient-text">24/7</div>
-                    <div className="text-sm text-muted-foreground">Доступність</div>
-                  </Card>
-                </div>
-              </motion.div>
-            </div>
-          </div>
-        </section>
-
-        {/* Contact Section */}
+        {/* Contact */}
         <section id="contact" className="py-32 px-6">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -582,119 +483,111 @@ export default function App() {
               </p>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <Card className="glass p-8">
-                <form className="space-y-6" onSubmit={handleSubmit}>
-                  <div className="grid md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Ім'я</label>
-                      <Input
-                        value={formName}
-                        onChange={(e) => setFormName(e.target.value)}
-                        placeholder="Ваше ім'я"
-                        className="glass border-purple-500/20 focus:border-purple-500/50"
-                        required
-                        name="name"
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">Email</label>
-                      <Input
-                        value={formEmail}
-                        onChange={(e) => setFormEmail(e.target.value)}
-                        type="email"
-                        placeholder="example@email.com"
-                        className="glass border-purple-500/20 focus:border-purple-500/50"
-                        required
-                        name="email"
-                      />
-                    </div>
-                  </div>
-
+            <Card className="glass p-8">
+              <form className="space-y-6" onSubmit={handleSubmit}>
+                <div className="grid md:grid-cols-2 gap-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Тип проєкту</label>
-                    <div className="grid grid-cols-3 gap-4">
-                      {(["Відео", "Чат-бот", "Фото"] as const).map((type) => {
-                        const active = formType === type;
-                        return (
-                          <button
-                            key={type}
-                            type="button"
-                            onClick={() => setFormType(type)}
-                            className={[
-                              "glass-hover p-4 rounded-lg text-center border transition-colors",
-                              active
-                                ? "border-purple-500/70 text-white"
-                                : "border-purple-500/20 hover:border-purple-500/50 text-muted-foreground",
-                            ].join(" ")}
-                          >
-                            {type}
-                          </button>
-                        );
-                      })}
-                    </div>
-
-                    {/* hidden input so type is included in submit */}
-                    <input type="hidden" name="projectType" value={formType} />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Опис проєкту</label>
-                    <Textarea
-                      value={formMessage}
-                      onChange={(e) => setFormMessage(e.target.value)}
-                      placeholder="Розкажіть про ваш проєкт..."
-                      rows={6}
+                    <label className="text-sm font-medium">Ім'я</label>
+                    <Input
+                      value={formName}
+                      onChange={(e) => setFormName(e.target.value)}
+                      placeholder="Ваше ім'я"
                       className="glass border-purple-500/20 focus:border-purple-500/50"
                       required
-                      name="message"
+                      name="name"
                     />
                   </div>
 
-                  {/* ✅ success / error message */}
-                  {submitStatus === "success" && (
-                    <div className="glass p-4 rounded-lg flex items-center justify-center gap-3 border border-purple-500/20">
-                      <CheckCircle2 className="w-5 h-5 text-green-400" />
-                      <span className="text-sm md:text-base">
-                        Дякуємо! Ми зв’яжемося з вами протягом 24 годин.
-                      </span>
-                    </div>
-                  )}
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Email</label>
+                    <Input
+                      value={formEmail}
+                      onChange={(e) => setFormEmail(e.target.value)}
+                      type="email"
+                      placeholder="example@email.com"
+                      className="glass border-purple-500/20 focus:border-purple-500/50"
+                      required
+                      name="email"
+                    />
+                  </div>
+                </div>
 
-                  {submitStatus === "error" && (
-                    <div className="glass p-4 rounded-lg text-center border border-red-500/30">
-                      <span className="text-sm md:text-base">
-                        Не вдалося відправити заявку 🥺 Спробуйте ще раз або напишіть нам в{" "}
-                        <a
-                          href="https://www.instagram.com/rozkvit.ai/"
-                          target="_blank"
-                          rel="noreferrer"
-                          className="underline hover:text-cyan-300 transition-colors"
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Тип проєкту</label>
+                  <div className="grid grid-cols-3 gap-4">
+                    {(["Відео", "Чат-бот", "Фото"] as const).map((type) => {
+                      const active = formType === type;
+                      return (
+                        <button
+                          key={type}
+                          type="button"
+                          onClick={() => setFormType(type)}
+                          className={[
+                            "glass-hover p-4 rounded-lg text-center border transition-colors",
+                            active
+                              ? "border-purple-500/70 text-white"
+                              : "border-purple-500/20 hover:border-purple-500/50 text-muted-foreground",
+                          ].join(" ")}
                         >
-                          Instagram
-                        </a>
-                        .
-                      </span>
-                    </div>
-                  )}
+                          {type}
+                        </button>
+                      );
+                    })}
+                  </div>
 
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={isSubmitting}
-                    className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow"
-                  >
-                    {isSubmitting ? "Відправляємо..." : "Відправити заявку"}
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </form>
-              </Card>
-            </motion.div>
+                  <input type="hidden" name="projectType" value={formType} />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-sm font-medium">Опис проєкту</label>
+                  <Textarea
+                    value={formMessage}
+                    onChange={(e) => setFormMessage(e.target.value)}
+                    placeholder="Розкажіть про ваш проєкт..."
+                    rows={6}
+                    className="glass border-purple-500/20 focus:border-purple-500/50"
+                    required
+                    name="message"
+                  />
+                </div>
+
+                {submitStatus === "success" && (
+                  <div className="glass p-4 rounded-lg flex items-center justify-center gap-3 border border-purple-500/20">
+                    <CheckCircle2 className="w-5 h-5 text-green-400" />
+                    <span className="text-sm md:text-base">
+                      Дякуємо! Ми зв’яжемося з вами протягом 24 годин.
+                    </span>
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="glass p-4 rounded-lg text-center border border-red-500/30">
+                    <span className="text-sm md:text-base">
+                      Не вдалося відправити заявку 🥺 Спробуйте ще раз або напишіть нам в{" "}
+                      <a
+                        href="https://www.instagram.com/rozkvit.ai/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="underline hover:text-cyan-300 transition-colors"
+                      >
+                        Instagram
+                      </a>
+                      .
+                    </span>
+                  </div>
+                )}
+
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow"
+                >
+                  {isSubmitting ? "Відправляємо..." : "Відправити заявку"}
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </form>
+            </Card>
 
             {/* ✅ тут прибрані 2 блоки Email/Instagram під формою */}
           </div>
@@ -719,42 +612,18 @@ export default function App() {
               <div>
                 <h4 className="font-semibold mb-4">Послуги</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <a href="#services" className="hover:text-purple-400 transition-colors">
-                      Відео креативи
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#services" className="hover:text-purple-400 transition-colors">
-                      AI чат-боти
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#services" className="hover:text-purple-400 transition-colors">
-                      AI фотографії
-                    </a>
-                  </li>
+                  <li><a href="#services" className="hover:text-purple-400 transition-colors">Відео креативи</a></li>
+                  <li><a href="#services" className="hover:text-purple-400 transition-colors">AI чат-боти</a></li>
+                  <li><a href="#services" className="hover:text-purple-400 transition-colors">AI фотографії</a></li>
                 </ul>
               </div>
 
               <div>
                 <h4 className="font-semibold mb-4">Компанія</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>
-                    <a href="#process" className="hover:text-purple-400 transition-colors">
-                      Про нас
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#portfolio" className="hover:text-purple-400 transition-colors">
-                      Портфоліо
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#contact" className="hover:text-purple-400 transition-colors">
-                      Контакти
-                    </a>
-                  </li>
+                  <li><a href="#process" className="hover:text-purple-400 transition-colors">Про нас</a></li>
+                  <li><a href="#portfolio" className="hover:text-purple-400 transition-colors">Портфоліо</a></li>
+                  <li><a href="#contact" className="hover:text-purple-400 transition-colors">Контакти</a></li>
                 </ul>
               </div>
 
@@ -763,7 +632,6 @@ export default function App() {
                 <ul className="space-y-2 text-sm text-muted-foreground">
                   <li>rozkvit.ai.ua@gmail.com</li>
 
-                  {/* ✅ Instagram icon + link */}
                   <li className="flex items-center gap-2">
                     <Instagram className="w-4 h-4 text-cyan-300" />
                     <a
@@ -788,12 +656,8 @@ export default function App() {
         </footer>
       </div>
 
-      {/* Portfolio Modal */}
-      <PortfolioModal
-        isOpen={portfolioModalOpen}
-        onClose={closePortfolioModal}
-        item={selectedPortfolioItem}
-      />
+      {/* ✅ Portfolio Modal */}
+      <PortfolioModal isOpen={portfolioModalOpen} onClose={closePortfolioModal} item={selectedPortfolioItem} />
     </div>
   );
 }
