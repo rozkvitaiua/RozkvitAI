@@ -1,21 +1,17 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import { useState, type FormEvent } from "react";
 import { motion } from "motion/react";
-
 import { AnimatedBackground } from "./components/AnimatedBackground";
 import { ServiceCard } from "./components/ServiceCard";
 import { PortfolioCard } from "./components/PortfolioCard";
 import { PortfolioModal } from "./components/PortfolioModal";
-
 import { Button } from "./components/ui/button";
 import { Card } from "./components/ui/card";
 import { Input } from "./components/ui/input";
 import { Textarea } from "./components/ui/textarea";
 import { Badge } from "./components/ui/badge";
-
 import Frame from "./imports/Frame25";
-
 import {
   Video,
   Bot,
@@ -23,81 +19,91 @@ import {
   Sparkles,
   Zap,
   Rocket,
-  Instagram,
   ArrowRight,
   Play,
-  CheckCircle2,
+  Mail,
+  Instagram,
 } from "lucide-react";
 
 export default function App() {
-  // -----------------------------
-  // ✅ Portfolio modal (як у Figma Make)
-  // -----------------------------
   const [portfolioModalOpen, setPortfolioModalOpen] = useState(false);
   const [selectedPortfolioItem, setSelectedPortfolioItem] = useState<any>(null);
 
-  const portfolioProjects = useMemo(
-    () => [
-      {
-        image:
-          "https://images.unsplash.com/photo-1581343117330-0104b39ce4c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwQUklMjB2aWRlbyUyMHByb2R1Y3Rpb258ZW58MXx8fHwxNzYxNDcwNjQyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        title: "Рекламна кампанія для e-commerce",
-        category: "Відео",
-        description:
-          "Серія вертикальних відео для Instagram Reels, які збільшили продажі на 340%",
-        tags: ["Instagram", "Reels", "E-commerce"],
-        fullDescription:
-          "Створили серію з 12 вертикальних відео для Instagram Reels, які продемонстрували продукти клієнта в динамічному та креативному форматі. Використовуючи AI-генерацію та професійний монтаж, ми створили контент, який виділявся серед конкурентів.",
-        client: "Fashion Store",
-        duration: "3 тижні",
-        results: [
-          "Збільшення продажів на 340%",
-          "Зріст залучення аудиторії на 520%",
-          "2.4М переглядів за перший місяць",
-          "CTR підвищився до 8.3%",
-        ],
-      },
-      {
-        image:
-          "https://images.unsplash.com/photo-1601132359864-c974e79890ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBSSUyMHJvYm90JTIwdGVjaG5vbG9neXxlbnwxfHx8fDE3NjE0NTY0Njh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        title: "AI асистент для онлайн-школи",
-        category: "Чат-бот",
-        description:
-          "Чат-бот, який автоматизував 80% запитів студентів та підвищив задоволеність",
-        tags: ["Telegram", "AI", "Освіта"],
-        fullDescription:
-          "Розробили інтелектуального чат-бота для онлайн-школи, який відповідає на питання студентів 24/7, допомагає з розкладом, нагадує про дедлайни та надає доступ до навчальних матеріалів. Бот інтегрований з базою знань школи та використовує NLP для розуміння природної мови.",
-        client: "EdTech Platform",
-        duration: "4 тижні",
-        results: [
-          "Автоматизовано 80% типових запитів",
-          "Підвищення задоволеності студентів на 45%",
-          "Економія 25 годин щотижня для підтримки",
-          "Середній час відповіді — менше 3 секунд",
-        ],
-      },
-      {
-        image:
-          "https://images.unsplash.com/photo-1648987905156-edcfc4beedfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwYXJ0JTIwcG9ydHJhaXR8ZW58MXx8fHwxNzYxNDcwMTU4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
-        title: "Продуктова фотозйомка для бренду",
-        category: "Фото",
-        description:
-          "AI-генеровані продуктові фотографії для каталогу fashion-бренду",
-        tags: ["AI Photography", "Fashion", "Product"],
-        fullDescription:
-          "Створили понад 200 унікальних продуктових фотографій для каталогу fashion-бренду за допомогою AI-технологій. Кожне зображення було ретушовано та оптимізовано для різних платформ — від web-сайту до соціальних мереж.",
-        client: "Premium Fashion Brand",
-        duration: "2 тижні",
-        results: [
-          "Створено 200+ унікальних фотографій",
-          "Зниження вартості фотозйомки на 70%",
-          "Конверсія в каталозі зросла на 35%",
-          "Час створення знизився з 6 до 2 тижнів",
-        ],
-      },
-    ],
-    []
+  // ✅ Formspree
+  const FORMSPREE_URL = "https://formspree.io/f/xaqqegeq";
+
+  // ✅ Form state (ОДИН раз, без дубля)
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [projectType, setProjectType] = useState<
+    "Відео" | "Чат-бот" | "Фото" | ""
+  >("");
+  const [message, setMessage] = useState("");
+
+  const [isSending, setIsSending] = useState(false);
+  const [formStatus, setFormStatus] = useState<"idle" | "success" | "error">(
+    "idle"
   );
+
+  const portfolioProjects = [
+    {
+      image:
+        "https://images.unsplash.com/photo-1581343117330-0104b39ce4c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwQUklMjB2aWRlbyUyMHByb2R1Y3Rpb258ZW58MXx8fHwxNzYxNDcwNjQyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      title: "Рекламна кампанія для e-commerce",
+      category: "Відео",
+      description:
+        "Серія вертикальних відео для Instagram Reels, які збільшили продажі на 340%",
+      tags: ["Instagram", "Reels", "E-commerce"],
+      fullDescription:
+        "Створили серію з 12 вертикальних відео для Instagram Reels, які продемонстрували продукти клієнта в динамічному та креативному форматі. Використовуючи AI-генерацію та професійний монтаж, ми створили контент, який виділявся серед конкурентів.",
+      client: "Fashion Store",
+      duration: "3 тижні",
+      results: [
+        "Збільшення продажів на 340%",
+        "Зріст залучення аудиторії на 520%",
+        "2.4М переглядів за перший місяць",
+        "CTR підвищився до 8.3%",
+      ],
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1601132359864-c974e79890ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBSSUyMHJvYm90JTIwdGVjaG5vbG9neXxlbnwxfHx8fDE3NjE0NTY0Njh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      title: "AI асистент для онлайн-школи",
+      category: "Чат-бот",
+      description:
+        "Чат-бот, який автоматизував 80% запитів студентів та підвищив задоволеність",
+      tags: ["Telegram", "AI", "Освіта"],
+      fullDescription:
+        "Розробили інтелектуального чат-бота для онлайн-школи, який відповідає на питання студентів 24/7, допомагає з розкладом, нагадує про дедлайни та надає доступ до навчальних матеріалів. Бот інтегрований з базою знань школи та використовує NLP для розуміння природної мови.",
+      client: "EdTech Platform",
+      duration: "4 тижні",
+      results: [
+        "Автоматизовано 80% типових запитів",
+        "Підвищення задоволеності студентів на 45%",
+        "Економія 25 годин щотижня для підтримки",
+        "Середній час відповіді - менше 3 секунд",
+      ],
+    },
+    {
+      image:
+        "https://images.unsplash.com/photo-1648987905156-edcfc4beedfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwYXJ0JTIwcG9ydHJhaXR8ZW58MXx8fHwxNzYxNDcwMTU4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral",
+      title: "Продуктова фотозйомка для бренду",
+      category: "Фото",
+      description:
+        "AI-генеровані продуктові фотографії для каталогу fashion-бренду",
+      tags: ["AI Photography", "Fashion", "Product"],
+      fullDescription:
+        "Створили понад 200 унікальних продуктових фотографій для каталогу fashion-бренду за допомогою AI-технологій. Кожне зображення було ретушовано та оптимізовано для різних платформ - від web-сайту до соціальних мереж.",
+      client: "Premium Fashion Brand",
+      duration: "2 тижні",
+      results: [
+        "Створено 200+ унікальних фотографій",
+        "Зниження вартості фотозйомки на 70%",
+        "Конверсія в каталозі зросла на 35%",
+        "Час на створення знизився з 6 до 2 тижнів",
+      ],
+    },
+  ];
 
   const openPortfolioModal = (item: any) => {
     setSelectedPortfolioItem(item);
@@ -106,80 +112,65 @@ export default function App() {
 
   const closePortfolioModal = () => {
     setPortfolioModalOpen(false);
-    setSelectedPortfolioItem(null);
   };
 
-  // -----------------------------
-  // ✅ Contact form (Formspree)
-  // -----------------------------
-  const FORMSPREE_ENDPOINT = "https://formspree.io/f/xaqqegeq";
-
-  const [formName, setFormName] = useState("");
-  const [formEmail, setFormEmail] = useState("");
-  const [formType, setFormType] = useState<"Відео" | "Чат-бот" | "Фото" | "">("");
-  const [formMessage, setFormMessage] = useState("");
-
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">(
-    "idle"
-  );
-
-  const resetSuccessLater = () => {
-    window.setTimeout(() => setSubmitStatus("idle"), 6000);
-  };
-
+  // ✅ Відправка форми через Formspree
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsSubmitting(true);
-    setSubmitStatus("idle");
+    // мінімальна валідація
+    if (!name.trim() || !email.trim() || !message.trim()) {
+      alert("Заповніть, будь ласка: ім'я, email і опис проєкту 🙂");
+      return;
+    }
 
     try {
-      const res = await fetch(FORMSPREE_ENDPOINT, {
+      setIsSending(true);
+      setFormStatus("idle");
+
+      const res = await fetch(FORMSPREE_URL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Accept: "application/json",
         },
         body: JSON.stringify({
-          name: formName,
-          email: formEmail,
-          projectType: formType,
-          message: formMessage,
-          source: "Rozkvit.AI website",
+          name,
+          email,
+          projectType: projectType || "не обрано",
+          message,
         }),
       });
 
-      if (!res.ok) throw new Error("Formspree error");
-
-      setSubmitStatus("success");
-      setFormName("");
-      setFormEmail("");
-      setFormType("");
-      setFormMessage("");
-      resetSuccessLater();
+      if (res.ok) {
+        setFormStatus("success");
+        setName("");
+        setEmail("");
+        setProjectType("");
+        setMessage("");
+      } else {
+        setFormStatus("error");
+      }
     } catch (err) {
-      setSubmitStatus("error");
+      setFormStatus("error");
     } finally {
-      setIsSubmitting(false);
+      setIsSending(false);
     }
-  };
-
-  const scrollToPortfolio = () => {
-    const el = document.getElementById("portfolio");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
     <div className="min-h-screen bg-[#0A0A0F] text-[#F5F5FF] relative overflow-hidden">
+      {/* Animated Background */}
       <AnimatedBackground />
 
+      {/* Gradient Orbs */}
       <div className="fixed top-0 left-0 w-[600px] h-[600px] bg-purple-500/20 rounded-full blur-[120px] animate-pulse-glow" />
       <div
         className="fixed bottom-0 right-0 w-[500px] h-[500px] bg-cyan-500/20 rounded-full blur-[120px] animate-pulse-glow"
         style={{ animationDelay: "1s" }}
       />
 
+      {/* Main Content */}
       <div className="relative z-10">
         {/* Header */}
         <motion.header
@@ -193,20 +184,34 @@ export default function App() {
               <div className="w-12 h-12">
                 <Frame />
               </div>
-              <span className="text-xl font-bold gradient-text">Rozkvit.AI</span>
+              <span className="text-xl font-bold gradient-text">
+                Rozkvit.AI
+              </span>
             </div>
 
             <nav className="hidden md:flex items-center gap-8">
-              <a href="#services" className="text-sm hover:text-purple-400 transition-colors">
+              <a
+                href="#services"
+                className="text-sm hover:text-purple-400 transition-colors"
+              >
                 Послуги
               </a>
-              <a href="#portfolio" className="text-sm hover:text-purple-400 transition-colors">
+              <a
+                href="#portfolio"
+                className="text-sm hover:text-purple-400 transition-colors"
+              >
                 Портфоліо
               </a>
-              <a href="#process" className="text-sm hover:text-purple-400 transition-colors">
+              <a
+                href="#process"
+                className="text-sm hover:text-purple-400 transition-colors"
+              >
                 Процес
               </a>
-              <a href="#contact" className="text-sm hover:text-purple-400 transition-colors">
+              <a
+                href="#contact"
+                className="text-sm hover:text-purple-400 transition-colors"
+              >
                 Контакти
               </a>
             </nav>
@@ -217,7 +222,7 @@ export default function App() {
           </div>
         </motion.header>
 
-        {/* Hero */}
+        {/* Hero Section */}
         <section className="min-h-screen flex items-center justify-center px-6 pt-20">
           <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
             <motion.div
@@ -237,8 +242,8 @@ export default function App() {
               </h1>
 
               <p className="text-xl text-muted-foreground leading-relaxed">
-                Створюємо відео креативи, розумних чат-ботів та унікальні AI-фотографії,
-                які захоплюють увагу та збільшують конверсії
+                Створюємо відео креативи, розумних чат-ботів та унікальні
+                AI-фотографії, які захоплюють увагу та збільшують конверсії
               </p>
 
               <div className="flex flex-wrap gap-4">
@@ -251,19 +256,17 @@ export default function App() {
                     <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                   </a>
                 </Button>
-
                 <Button
                   size="lg"
                   variant="outline"
                   className="glass-hover border-purple-500/30 group"
-                  type="button"
-                  onClick={scrollToPortfolio}
                 >
                   <Play className="w-4 h-4 mr-2 group-hover:scale-110 transition-transform" />
                   Дивитись портфоліо
                 </Button>
               </div>
 
+              {/* Stats */}
               <div className="grid grid-cols-3 gap-6 pt-8">
                 <div>
                   <div className="text-3xl font-bold gradient-text">500+</div>
@@ -271,7 +274,9 @@ export default function App() {
                 </div>
                 <div>
                   <div className="text-3xl font-bold gradient-text">98%</div>
-                  <div className="text-sm text-muted-foreground">Задоволених клієнтів</div>
+                  <div className="text-sm text-muted-foreground">
+                    Задоволених клієнтів
+                  </div>
                 </div>
                 <div>
                   <div className="text-3xl font-bold gradient-text">24/7</div>
@@ -295,6 +300,7 @@ export default function App() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0F] via-transparent to-transparent" />
               </div>
 
+              {/* Floating elements */}
               <motion.div
                 className="absolute -top-6 -right-6 glass p-4 rounded-2xl neon-glow"
                 animate={{ y: [0, -10, 0] }}
@@ -314,7 +320,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Services */}
+        {/* Services Section */}
         <section id="services" className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -330,7 +336,8 @@ export default function App() {
                 Що ми <span className="gradient-text">створюємо</span>
               </h2>
               <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                Використовуємо найновіші AI-технології для створення контенту світового рівня
+                Використовуємо найновіші AI-технології для створення контенту
+                світового рівня
               </p>
             </motion.div>
 
@@ -380,7 +387,7 @@ export default function App() {
           </div>
         </section>
 
-        {/* Portfolio */}
+        {/* Portfolio Section (НЕ ЧІПАЄМО) */}
         <section
           id="portfolio"
           className="py-32 px-6 bg-gradient-to-b from-transparent via-purple-500/5 to-transparent"
@@ -403,25 +410,57 @@ export default function App() {
               </p>
             </motion.div>
 
-            {/* ✅ Клік по картці => відкриття модалки */}
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {portfolioProjects.map((p, i) => (
-                <PortfolioCard
-                  key={p.title}
-                  image={p.image}
-                  title={p.title}
-                  category={p.category}
-                  description={p.description}
-                  tags={p.tags}
-                  delay={i * 0.1}
-                  onClick={() => openPortfolioModal(portfolioProjects[i])}
-                />
-              ))}
+              <PortfolioCard
+                image="https://images.unsplash.com/photo-1581343117330-0104b39ce4c9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxmdXR1cmlzdGljJTIwQUklMjB2aWRlbyUyMHByb2R1Y3Rpb258ZW58MXx8fHwxNzYxNDcwNjQyfDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                title="Рекламна кампанія для e-commerce"
+                category="Відео"
+                description="Серія вертикальних відео для Instagram Reels, які збільшили продажі на 340%"
+                tags={["Instagram", "Reels", "E-commerce"]}
+                delay={0}
+                onClick={() => openPortfolioModal(portfolioProjects[0])}
+              />
+
+              <PortfolioCard
+                image="https://images.unsplash.com/photo-1601132359864-c974e79890ac?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxBSSUyMHJvYm90JTIwdGVjaG5vbG9neXxlbnwxfHx8fDE3NjE0NTY0Njh8MA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                title="AI асистент для онлайн-школи"
+                category="Чат-бот"
+                description="Чат-бот, який автоматизував 80% запитів студентів та підвищив задоволеність"
+                tags={["Telegram", "AI", "Освіта"]}
+                delay={0.1}
+                onClick={() => openPortfolioModal(portfolioProjects[1])}
+              />
+
+              <PortfolioCard
+                image="https://images.unsplash.com/photo-1648987905156-edcfc4beedfb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxkaWdpdGFsJTIwYXJ0JTIwcG9ydHJhaXR8ZW58MXx8fHwxNzYxNDcwMTU4fDA&ixlib=rb-4.1.0&q=80&w=1080&utm_source=figma&utm_medium=referral"
+                title="Продуктова фотозйомка для бренду"
+                category="Фото"
+                description="AI-генеровані продуктові фотографії для каталогу fashion-бренду"
+                tags={["AI Photography", "Fashion", "Product"]}
+                delay={0.2}
+                onClick={() => openPortfolioModal(portfolioProjects[2])}
+              />
             </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="text-center mt-12"
+            >
+              <Button
+                size="lg"
+                variant="outline"
+                className="glass-hover border-purple-500/30"
+              >
+                Дивитись всі проєкти
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </motion.div>
           </div>
         </section>
 
-        {/* Process */}
+        {/* Process Section */}
         <section id="process" className="py-32 px-6">
           <div className="max-w-7xl mx-auto">
             <motion.div
@@ -440,10 +479,26 @@ export default function App() {
 
             <div className="grid md:grid-cols-4 gap-8">
               {[
-                { step: "01", title: "Консультація", desc: "Обговорюємо ваші цілі та вимоги" },
-                { step: "02", title: "Планування", desc: "Створюємо стратегію та концепцію" },
-                { step: "03", title: "Створення", desc: "Реалізуємо проєкт з AI-технологіями" },
-                { step: "04", title: "Доставка", desc: "Передаємо готовий результат" },
+                {
+                  step: "01",
+                  title: "Консультація",
+                  desc: "Обговорюємо ваші цілі та вимоги",
+                },
+                {
+                  step: "02",
+                  title: "Планування",
+                  desc: "Створюємо стратегію та концепцію",
+                },
+                {
+                  step: "03",
+                  title: "Створення",
+                  desc: "Реалізуємо проєкт з AI-технологіями",
+                },
+                {
+                  step: "04",
+                  title: "Доставка",
+                  desc: "Передаємо готовий результат",
+                },
               ].map((item, index) => (
                 <motion.div
                   key={index}
@@ -453,7 +508,9 @@ export default function App() {
                   transition={{ delay: index * 0.1 }}
                 >
                   <Card className="glass p-6 text-center space-y-4 h-full">
-                    <div className="text-5xl font-bold gradient-text">{item.step}</div>
+                    <div className="text-5xl font-bold gradient-text">
+                      {item.step}
+                    </div>
                     <h3 className="text-xl font-bold">{item.title}</h3>
                     <p className="text-sm text-muted-foreground">{item.desc}</p>
                   </Card>
@@ -463,7 +520,9 @@ export default function App() {
           </div>
         </section>
 
-        {/* Contact */}
+        {/* ✅ ВИДАЛЕНО: Why Choose Us Section */}
+
+        {/* Contact Section */}
         <section id="contact" className="py-32 px-6">
           <div className="max-w-4xl mx-auto">
             <motion.div
@@ -483,113 +542,107 @@ export default function App() {
               </p>
             </motion.div>
 
-            <Card className="glass p-8">
-              <form className="space-y-6" onSubmit={handleSubmit}>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Ім'я</label>
-                    <Input
-                      value={formName}
-                      onChange={(e) => setFormName(e.target.value)}
-                      placeholder="Ваше ім'я"
-                      className="glass border-purple-500/20 focus:border-purple-500/50"
-                      required
-                      name="name"
-                    />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <Card className="glass p-8">
+                <form className="space-y-6" onSubmit={handleSubmit}>
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Ім'я</label>
+                      <Input
+                        name="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        placeholder="Ваше ім'я"
+                        className="glass border-purple-500/20 focus:border-purple-500/50"
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">Email</label>
+                      <Input
+                        name="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        type="email"
+                        placeholder="example@email.com"
+                        className="glass border-purple-500/20 focus:border-purple-500/50"
+                      />
+                    </div>
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Email</label>
-                    <Input
-                      value={formEmail}
-                      onChange={(e) => setFormEmail(e.target.value)}
-                      type="email"
-                      placeholder="example@email.com"
+                    <label className="text-sm font-medium">Тип проєкту</label>
+
+                    <div className="grid grid-cols-3 gap-4">
+                      {(["Відео", "Чат-бот", "Фото"] as const).map((type) => {
+                        const active = projectType === type;
+                        return (
+                          <button
+                            key={type}
+                            type="button"
+                            onClick={() => setProjectType(type)}
+                            className={[
+                              "glass-hover p-4 rounded-lg text-center border transition-colors",
+                              active
+                                ? "border-purple-500/70 bg-purple-500/10"
+                                : "border-purple-500/20 hover:border-purple-500/50",
+                            ].join(" ")}
+                          >
+                            {type}
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {!projectType && (
+                      <div className="text-xs text-muted-foreground pt-1">
+                        * можна не обирати, але краще обрати 🙂
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">Опис проєкту</label>
+                    <Textarea
+                      name="message"
+                      value={message}
+                      onChange={(e) => setMessage(e.target.value)}
+                      placeholder="Розкажіть про ваш проєкт..."
+                      rows={6}
                       className="glass border-purple-500/20 focus:border-purple-500/50"
-                      required
-                      name="email"
                     />
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Тип проєкту</label>
-                  <div className="grid grid-cols-3 gap-4">
-                    {(["Відео", "Чат-бот", "Фото"] as const).map((type) => {
-                      const active = formType === type;
-                      return (
-                        <button
-                          key={type}
-                          type="button"
-                          onClick={() => setFormType(type)}
-                          className={[
-                            "glass-hover p-4 rounded-lg text-center border transition-colors",
-                            active
-                              ? "border-purple-500/70 text-white"
-                              : "border-purple-500/20 hover:border-purple-500/50 text-muted-foreground",
-                          ].join(" ")}
-                        >
-                          {type}
-                        </button>
-                      );
-                    })}
-                  </div>
+                  <Button
+                    type="submit"
+                    size="lg"
+                    disabled={isSending}
+                    className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow"
+                  >
+                    {isSending ? "Надсилаємо..." : "Відправити заявку"}
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
 
-                  <input type="hidden" name="projectType" value={formType} />
-                </div>
+                  {formStatus === "success" && (
+                    <p className="text-sm text-green-400 text-center">
+                      ✅ Заявку надіслано! Ми скоро відповімо.
+                    </p>
+                  )}
 
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Опис проєкту</label>
-                  <Textarea
-                    value={formMessage}
-                    onChange={(e) => setFormMessage(e.target.value)}
-                    placeholder="Розкажіть про ваш проєкт..."
-                    rows={6}
-                    className="glass border-purple-500/20 focus:border-purple-500/50"
-                    required
-                    name="message"
-                  />
-                </div>
+                  {formStatus === "error" && (
+                    <p className="text-sm text-red-400 text-center">
+                      ❌ Помилка відправки. Спробуйте ще раз.
+                    </p>
+                  )}
+                </form>
+              </Card>
+            </motion.div>
 
-                {submitStatus === "success" && (
-                  <div className="glass p-4 rounded-lg flex items-center justify-center gap-3 border border-purple-500/20">
-                    <CheckCircle2 className="w-5 h-5 text-green-400" />
-                    <span className="text-sm md:text-base">
-                      Дякуємо! Ми зв’яжемося з вами протягом 24 годин.
-                    </span>
-                  </div>
-                )}
-
-                {submitStatus === "error" && (
-                  <div className="glass p-4 rounded-lg text-center border border-red-500/30">
-                    <span className="text-sm md:text-base">
-                      Не вдалося відправити заявку 🥺 Спробуйте ще раз або напишіть нам в{" "}
-                      <a
-                        href="https://www.instagram.com/rozkvit.ai/"
-                        target="_blank"
-                        rel="noreferrer"
-                        className="underline hover:text-cyan-300 transition-colors"
-                      >
-                        Instagram
-                      </a>
-                      .
-                    </span>
-                  </div>
-                )}
-
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={isSubmitting}
-                  className="w-full bg-gradient-to-r from-purple-500 to-cyan-500 hover:opacity-90 neon-glow"
-                >
-                  {isSubmitting ? "Відправляємо..." : "Відправити заявку"}
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </form>
-            </Card>
-
-            {/* ✅ тут прибрані 2 блоки Email/Instagram під формою */}
+            {/* ✅ ВИДАЛЕНО: Contact methods cards (Email/Instagram) */}
           </div>
         </section>
 
@@ -602,7 +655,9 @@ export default function App() {
                   <div className="w-12 h-12">
                     <Frame />
                   </div>
-                  <span className="text-xl font-bold gradient-text">Rozkvit.AI</span>
+                  <span className="text-xl font-bold gradient-text">
+                    Rozkvit.AI
+                  </span>
                 </div>
                 <p className="text-sm text-muted-foreground">
                   AI-студія креативного контенту нового покоління
@@ -612,34 +667,85 @@ export default function App() {
               <div>
                 <h4 className="font-semibold mb-4">Послуги</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li><a href="#services" className="hover:text-purple-400 transition-colors">Відео креативи</a></li>
-                  <li><a href="#services" className="hover:text-purple-400 transition-colors">AI чат-боти</a></li>
-                  <li><a href="#services" className="hover:text-purple-400 transition-colors">AI фотографії</a></li>
+                  <li>
+                    <a
+                      href="#services"
+                      className="hover:text-purple-400 transition-colors"
+                    >
+                      Відео креативи
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#services"
+                      className="hover:text-purple-400 transition-colors"
+                    >
+                      AI чат-боти
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#services"
+                      className="hover:text-purple-400 transition-colors"
+                    >
+                      AI фотографії
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               <div>
                 <h4 className="font-semibold mb-4">Компанія</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li><a href="#process" className="hover:text-purple-400 transition-colors">Про нас</a></li>
-                  <li><a href="#portfolio" className="hover:text-purple-400 transition-colors">Портфоліо</a></li>
-                  <li><a href="#contact" className="hover:text-purple-400 transition-colors">Контакти</a></li>
+                  <li>
+                    <a
+                      href="#process"
+                      className="hover:text-purple-400 transition-colors"
+                    >
+                      Про нас
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#portfolio"
+                      className="hover:text-purple-400 transition-colors"
+                    >
+                      Портфоліо
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      href="#contact"
+                      className="hover:text-purple-400 transition-colors"
+                    >
+                      Контакти
+                    </a>
+                  </li>
                 </ul>
               </div>
 
               <div>
                 <h4 className="font-semibold mb-4">Контакти</h4>
                 <ul className="space-y-2 text-sm text-muted-foreground">
-                  <li>rozkvit.ai.ua@gmail.com</li>
+                  <li>
+                    <a
+                      href="mailto:rozkvit.ai.ua@gmail.com"
+                      className="hover:text-purple-400 transition-colors inline-flex items-center gap-2"
+                    >
+                      <Mail className="w-4 h-4" />
+                      rozkvit.ai.ua@gmail.com
+                    </a>
+                  </li>
 
-                  <li className="flex items-center gap-2">
-                    <Instagram className="w-4 h-4 text-cyan-300" />
+                  {/* ✅ Instagram link */}
+                  <li>
                     <a
                       href="https://www.instagram.com/rozkvit.ai/"
                       target="_blank"
-                      rel="noreferrer"
-                      className="hover:text-cyan-300 transition-colors"
+                      rel="noopener noreferrer"
+                      className="hover:text-purple-400 transition-colors inline-flex items-center gap-2"
                     >
+                      <Instagram className="w-4 h-4" />
                       @rozkvit.ai
                     </a>
                   </li>
@@ -650,14 +756,18 @@ export default function App() {
             </div>
 
             <div className="pt-8 border-t border-white/5 text-center text-sm text-muted-foreground">
-              <p>© 2026 Rozkvit.AI. Всі права захищені.</p>
+              <p>© 2025 Rozkvit.AI. Всі права захищені.</p>
             </div>
           </div>
         </footer>
       </div>
 
-      {/* ✅ Portfolio Modal */}
-      <PortfolioModal isOpen={portfolioModalOpen} onClose={closePortfolioModal} item={selectedPortfolioItem} />
+      {/* Portfolio Modal */}
+      <PortfolioModal
+        isOpen={portfolioModalOpen}
+        onClose={closePortfolioModal}
+        item={selectedPortfolioItem}
+      />
     </div>
   );
 }
