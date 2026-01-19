@@ -37,6 +37,18 @@ export function PortfolioModal({ isOpen, onClose, item }: PortfolioModalProps) {
     };
   }, [isOpen]);
 
+  // ✅ закриття по ESC
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [isOpen, onClose]);
+
   if (!item) return null;
 
   return (
@@ -62,11 +74,12 @@ export function PortfolioModal({ isOpen, onClose, item }: PortfolioModalProps) {
               onClick={(e) => e.stopPropagation()}
               className="relative w-full max-w-4xl"
             >
-              {/* ✅ Close button (нормальне позиціонування) */}
+              {/* Close button */}
               <button
                 onClick={onClose}
-                className="absolute top-4 right-4 z-10 w-11 h-11 rounded-full glass border border-white/10 flex items-center justify-center hover:bg-white/20 transition-colors group neon-glow"
+                className="absolute top-4 right-4 z-20 w-11 h-11 rounded-full glass border border-white/10 flex items-center justify-center hover:bg-white/20 transition-colors group neon-glow"
                 aria-label="Close modal"
+                type="button"
               >
                 <X className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300" />
               </button>
@@ -95,8 +108,8 @@ export function PortfolioModal({ isOpen, onClose, item }: PortfolioModalProps) {
                   </div>
                 </div>
 
-                {/* ✅ Scroll area */}
-                <div className="p-6 md:p-8 space-y-8 overflow-y-auto">
+                {/* ✅ Scroll area (ОСНОВНА ПРАВКА) */}
+                <div className="p-6 md:p-8 space-y-8 overflow-y-auto flex-1 min-h-0">
                   {/* Meta */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                     <div className="glass rounded-xl p-4 border border-white/5">
