@@ -24,6 +24,21 @@ export function PortfolioCard({
   delay = 0,
   onClick,
 }: PortfolioCardProps) {
+  const handleClick = (e: React.MouseEvent) => {
+    // ✅ КРИТИЧНО: блокуємо будь-які "відкриття посилань" всередині картинки
+    e.preventDefault();
+    e.stopPropagation();
+    onClick?.();
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!onClick) return;
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onClick();
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -34,44 +49,33 @@ export function PortfolioCard({
     >
       <Card
         className="glass overflow-hidden group cursor-pointer"
-        onClick={onClick}
         role="button"
         tabIndex={0}
-        aria-label={`Відкрити кейс: ${title}`}
-        onKeyDown={(e) => {
-          if (!onClick) return;
-
-          // ✅ Enter відкриває
-          if (e.key === "Enter") {
-            e.preventDefault();
-            onClick();
-          }
-
-          // ✅ Space відкриває і НЕ скролить сторінку
-          if (e.key === " ") {
-            e.preventDefault();
-            onClick();
-          }
-        }}
+        onClick={handleClick}
+        onKeyDown={handleKeyDown}
       >
         {/* Image */}
         <div className="relative h-64 overflow-hidden">
+          {/* ✅ Щоб клік точно не йшов в ImageWithFallback як в лінк */}
+          <div className="absolute inset-0 z-10" />
+
           <ImageWithFallback
             src={image}
             alt={title}
             className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
           />
+
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
 
           {/* Category badge */}
-          <div className="absolute top-4 right-4">
+          <div className="absolute top-4 right-4 z-20">
             <Badge className="bg-[#8B5CF6] text-white border-0 backdrop-blur-sm">
               {category}
             </Badge>
           </div>
 
-          {/* Overlay content on hover */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          {/* Overlay icon */}
+          <div className="absolute inset-0 z-20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
             <div className="bg-white/10 backdrop-blur-md rounded-full p-4">
               <svg
                 className="w-8 h-8 text-white"
@@ -101,12 +105,10 @@ export function PortfolioCard({
           <h3 className="text-xl font-bold group-hover:text-[#8B5CF6] transition-colors">
             {title}
           </h3>
-
           <p className="text-sm text-muted-foreground leading-relaxed">
             {description}
           </p>
 
-          {/* Tags */}
           <div className="flex flex-wrap gap-2">
             {tags.map((tag, index) => (
               <span
