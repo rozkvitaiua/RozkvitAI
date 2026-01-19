@@ -94,7 +94,7 @@ export function PortfolioModal({ isOpen, onClose, item }: PortfolioModalProps) {
               </button>
 
               {/* Modal container */}
-              <div className="glass rounded-3xl overflow-hidden border border-white/10 max-h-[90vh] flex flex-col">
+              <div className="rounded-3xl overflow-hidden border border-white/10 bg-[#0A0A0F]/88 backdrop-blur-2xl shadow-2xl h-[90vh] max-h-[90vh] flex flex-col min-h-0">
                 {/* Hero Image */}
                 <div className="relative h-56 md:h-80 overflow-hidden flex-shrink-0">
                   <ImageWithFallback
@@ -120,7 +120,7 @@ export function PortfolioModal({ isOpen, onClose, item }: PortfolioModalProps) {
                 </div>
 
                 {/* Content scroll area */}
-                <div className="p-6 md:p-8 space-y-10 overflow-y-auto">
+                <div className="p-6 md:p-8 space-y-8 overflow-y-auto flex-1 min-h-0 overscroll-contain">
                   {/* ✅ Meta cards (як у Figma Make: 3 в ряд) */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
                     <div className="glass rounded-2xl p-5 border border-white/5">
